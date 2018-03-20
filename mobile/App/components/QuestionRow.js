@@ -4,12 +4,10 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { AnswerText } from "./Text";
 
 export default ({ answer, onPress = () => null }) => (
-  <View style={styles.row}>
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.circle} />
-    </TouchableOpacity>
+  <TouchableOpacity style={styles.row} onPress={onPress}>
+    <View style={styles.circle} />
     <AnswerText>{answer}</AnswerText>
-  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -18,7 +16,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     alignSelf: "stretch",
     alignItems: "center",
-    paddingVertical: 5
+    paddingVertical: 5,
+    height: 40
   },
   circle: {
     width: 30,

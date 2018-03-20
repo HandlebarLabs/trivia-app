@@ -13,7 +13,8 @@ export default class App extends React.Component {
   static defaultProps = {
     totalResponses: 0,
     answerResponses: 0,
-    wasCorrect: false
+    wasCorrect: false,
+    wasUserAnswer: false
   };
 
   state = {
@@ -31,17 +32,27 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { answer, totalResponses, answerResponses, wasCorrect } = this.props;
+    const {
+      answer,
+      totalResponses,
+      answerResponses,
+      wasCorrect,
+      wasUserAnswer
+    } = this.props;
 
     const answerBarStyles = [
       styles.row,
       styles.answerBarStyle,
       { width: this.state.width }
     ];
-    if (wasCorrect) {
-      answerBarStyles.push(styles.successBackground);
+    if (wasUserAnswer) {
+      if (wasCorrect) {
+        answerBarStyles.push(styles.successBackground);
+      } else {
+        answerBarStyles.push(styles.failBackground);
+      }
     } else {
-      answerBarStyles.push(styles.failBackground);
+      answerBarStyles.push(styles.neutralBackground);
     }
 
     return (
@@ -66,21 +77,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     borderRadius: 20,
     justifyContent: "space-between",
-    height: 30
+    height: 40
   },
   answerBarStyle: {
     marginVertical: 0,
-
     position: "absolute",
     top: 0,
     bottom: 0,
     left: 0
   },
+  neutralBackground: {
+    backgroundColor: "#C8C8C8"
+  },
   successBackground: {
-    backgroundColor: "green"
+    backgroundColor: "#68B684"
   },
   failBackground: {
-    backgroundColor: "red"
+    backgroundColor: "#FF6868"
   },
   circle: {
     width: 30,

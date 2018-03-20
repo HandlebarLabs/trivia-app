@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     margin: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    alignSelf: "stretch"
   }
 });

@@ -2,7 +2,11 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 export default props => (
-  <TextInput style={[styles.input, props.style]} {...props} />
+  <TextInput
+    style={[styles.input, props.style]}
+    placeholderTextColor="#ABABAB"
+    {...props}
+  />
 );
 
 const styles = StyleSheet.create({
