@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 30,
     paddingHorizontal: 60,
-    marginTop: 20
+    marginTop: 20,
+    alignSelf: "center"
   },
   secondary: {
     backgroundColor: "transparent",

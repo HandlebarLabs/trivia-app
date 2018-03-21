@@ -7,6 +7,7 @@ import { QuestionText } from "../components/Text";
 import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
+import Animator from "../components/Animator";
 
 export default class App extends React.Component {
   // TODO: Only temporary
@@ -36,7 +37,8 @@ export default class App extends React.Component {
   state = {
     answered: false,
     wasCorrect: null,
-    userAnswer: {}
+    userAnswer: {},
+    cardVisible: true
   };
 
   handleAnswer = answer => {
@@ -48,7 +50,7 @@ export default class App extends React.Component {
   };
 
   handleNext = () => {
-    alert("next pressed");
+    this.setState({ cardVisible: false });
   };
 
   renderResults = () => (
@@ -86,18 +88,22 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
-        <Card>
-          <QuestionText>
-            Which christian missionary is said to have banished all the snakes
-            from Ireland?
-          </QuestionText>
-          {this.state.answered ? this.renderResults() : this.renderQuestions()}
-        </Card>
-        {this.state.answered ? (
-          <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
-        ) : (
-          <ButtonPlaceholder />
-        )}
+        <Animator visible={this.state.cardVisible}>
+          <Card>
+            <QuestionText>
+              Which christian missionary is said to have banished all the snakes
+              from Ireland?
+            </QuestionText>
+            {this.state.answered
+              ? this.renderResults()
+              : this.renderQuestions()}
+          </Card>
+          {this.state.answered ? (
+            <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
+          ) : (
+            <ButtonPlaceholder />
+          )}
+        </Animator>
       </Container>
     );
   }
