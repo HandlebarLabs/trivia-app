@@ -38,7 +38,8 @@ export default class App extends React.Component {
       <Container>
         <Card>
           <TitleText>
-            Next question in {moment(this.props.nextQuestionTime).toNow(true)}
+            Next question in{" "}
+            {moment(new Date(this.props.nextQuestionTime)).toNow(true)}
           </TitleText>
           <StandardText center>{this.state.username}</StandardText>
           <Stats

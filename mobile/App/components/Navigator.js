@@ -8,7 +8,8 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      currentScene: props.initialSceneName || Object.keys(props.scenes)[0]
+      currentScene: props.initialSceneName || Object.keys(props.scenes)[0],
+      nextSceneProps: null
     };
   }
 
@@ -41,9 +42,11 @@ export default class App extends React.Component {
     });
   };
 
-  goTo = sceneName => {
+  goTo = (sceneName, props = {}) => {
     this.dismiss().then(() => {
-      this.setState({ currentScene: sceneName }, () => this.display());
+      this.setState({ currentScene: sceneName, nextSceneProps: props }, () =>
+        this.display()
+      );
     });
   };
 
@@ -67,7 +70,11 @@ export default class App extends React.Component {
 
     return (
       <Animated.View style={s}>
-        <CurrentScene goTo={this.goTo} {...sceneProps} />
+        <CurrentScene
+          goTo={this.goTo}
+          {...sceneProps}
+          {...this.state.nextSceneProps}
+        />
       </Animated.View>
     );
   }

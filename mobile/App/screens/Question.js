@@ -14,13 +14,21 @@ export default class App extends React.Component {
   state = {
     answered: false,
     wasCorrect: null,
-    userAnswer: {}
+    userAnswer: {},
+    questions: []
   };
 
   componentDidMount() {
-    if (this.props.questions.length === 0) {
-      this.props.goTo("Waiting");
-    }
+    API.getQuestions().then(data => {
+      if (data.questions.length === 0) {
+        this.props.goTo("Waiting", { nextQuestionTime: data.nextQuestionTime });
+      }
+
+      this.setState({
+        questions: data.questions,
+        nextQuestionTime: data.nextQuestionTime
+      });
+    });
   }
 
   handleAnswer = (question, answer) => {
@@ -34,7 +42,9 @@ export default class App extends React.Component {
   };
 
   handleNext = () => {
-    this.props.goTo("Waiting");
+    this.props.goTo("Waiting", {
+      nextQuestionTime: this.state.nextQuestionTime
+    });
   };
 
   renderResults = ({ answers, totalResponses }) => (
@@ -70,13 +80,11 @@ export default class App extends React.Component {
   );
 
   render() {
-    if (this.props.questions.length === 0) {
+    if (this.state.questions.length === 0) {
       return null;
     }
 
-    const currentQuestion = this.props.questions[
-      this.props.activeQuestionIndex
-    ];
+    const currentQuestion = this.state.questions[0];
     return (
       <Container>
         <Card>

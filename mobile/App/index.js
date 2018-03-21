@@ -29,13 +29,6 @@ export default class App extends React.Component {
 
       this.setState(updatedState);
     });
-
-    API.getQuestions().then(data => {
-      this.setState({
-        questions: data.questions,
-        nextQuestionTime: data.nextQuestionTime
-      });
-    });
   }
 
   render() {
@@ -53,15 +46,15 @@ export default class App extends React.Component {
               Account: { component: Account },
               EnablePush: { component: EnablePush },
               Question: {
-                component: Question,
-                props: {
-                  questions: this.state.questions,
-                  activeQuestionIndex: 0
-                }
+                component: Question
+                // props: {
+                //   questions: this.state.questions,
+                //   activeQuestionIndex: 0
+                // }
               },
               Waiting: {
-                component: Waiting,
-                props: { nextQuestionTime: this.state.nextQuestionTime }
+                component: Waiting
+                // props: { nextQuestionTime: this.state.nextQuestionTime }
               }
             }}
           />

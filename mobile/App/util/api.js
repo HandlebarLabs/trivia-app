@@ -5,6 +5,9 @@ const USERNAME = "username";
 const TOTAL_ANSWERED = "totalAnswered";
 const CORRECT_ANSWERED = "correctAnswered";
 
+// TODO: Make this the public url
+const ENDPOINT = "http://localhost:3000";
+
 const setUsername = username => {
   if (!username || username.length === 0) {
     return AsyncStorage.multiRemove([
@@ -38,13 +41,15 @@ const incrementAnswered = wasCorrect => {
 const answerQuestion = (question, answer) => {
   incrementAnswered(answer.correct);
 
-  // TODO: Make API call
-  // return fetch(`${ENDPOINT}/answer-question/${question._id}`, {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     answer,
-  //   })
-  // });
+  return fetch(`${ENDPOINT}/answer-question/${question._id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      answer
+    })
+  });
 };
 
 const getUserStats = () => {
@@ -59,36 +64,7 @@ const getUserStats = () => {
 };
 
 export const getQuestions = () => {
-  // TODO: Make API call
-  // return fetch(`${ENDPOINT}/next-questions`);
-  return Promise.resolve({
-    nextQuestionTime: moment().add(20, "minutes"),
-    questions: [
-      {
-        _id: 1,
-        question:
-          "Which christian missionary is said to have banished all the snakes from Ireland?",
-        totalResponses: 20,
-        answers: [
-          {
-            answer: "Patrick Star",
-            answerCount: 10,
-            correct: false
-          },
-          {
-            answer: "Saint Patrick",
-            answerCount: 7,
-            correct: true
-          },
-          {
-            answer: "Neil Patrick Harris",
-            answerCount: 3,
-            correct: false
-          }
-        ]
-      }
-    ]
-  });
+  return fetch(`${ENDPOINT}/next-questions`).then(res => res.json());
 };
 
 export default {
