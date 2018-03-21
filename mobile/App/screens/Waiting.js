@@ -13,15 +13,25 @@ import API from "../util/api";
 export default class App extends React.Component {
   // TODO: Temporary
   static defaultProps = {
-    nextQuestionTime: moment().add(20, "minutes"),
-    username: "spencercarli",
-    correctAnswers: 7,
-    questionsAnswered: 10
+    nextQuestionTime: moment().add(20, "minutes")
   };
 
   state = {
-    pushEnabled: true
+    pushEnabled: true, // TODO: Fix
+    correctAnswers: "...",
+    questionsAnswered: "...",
+    username: "..."
   };
+
+  componentDidMount() {
+    API.getUsername().then(username => this.setState({ username }));
+    API.getUserStats().then(stats => {
+      this.setState({
+        correctAnswers: stats.correct,
+        questionsAnswered: stats.total
+      });
+    });
+  }
 
   handleLogout = () => {
     API.setUsername();
@@ -35,10 +45,10 @@ export default class App extends React.Component {
           <TitleText>
             Next question in {moment(this.props.nextQuestionTime).toNow(true)}
           </TitleText>
-          <StandardText center>{this.props.username}</StandardText>
+          <StandardText center>{this.state.username}</StandardText>
           <Stats
-            correct={this.props.correctAnswers}
-            total={this.props.questionsAnswered}
+            correct={this.state.correctAnswers}
+            total={this.state.questionsAnswered}
           />
         </Card>
         {!this.state.pushEnabled && (

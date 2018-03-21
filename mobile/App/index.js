@@ -34,7 +34,6 @@ export default class App extends React.Component {
       ? "Question"
       : "Welcome";
 
-    console.log(this.state.appReady, initialSceneName);
     return (
       <Container>
         {this.state.appReady ? (

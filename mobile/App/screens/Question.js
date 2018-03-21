@@ -9,6 +9,8 @@ import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
 import Animator from "../components/Animator";
 
+import API from "../util/api";
+
 export default class App extends React.Component {
   // TODO: Only temporary
   static defaultProps = {
@@ -46,6 +48,8 @@ export default class App extends React.Component {
       wasCorrect: answer.correct,
       userAnswer: answer
     });
+
+    API.incrementAnswered(answer.correct);
   };
 
   handleNext = () => {

@@ -24,7 +24,6 @@ export default class App extends React.Component {
 
   render() {
     const scene = this.props.scenes[this.state.currentScene];
-    console.log(this.state.currentScene);
     const CurrentScene = scene ? scene.component : View;
 
     return (
