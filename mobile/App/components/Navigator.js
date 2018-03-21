@@ -8,7 +8,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      currentScene: props.initialScreenName || Object.keys(props.scenes)[0],
+      currentScene: props.initialSceneName || Object.keys(props.scenes)[0],
       sceneVisible: true
     };
   }
@@ -24,6 +24,7 @@ export default class App extends React.Component {
 
   render() {
     const scene = this.props.scenes[this.state.currentScene];
+    console.log(this.state.currentScene);
     const CurrentScene = scene ? scene.component : View;
 
     return (

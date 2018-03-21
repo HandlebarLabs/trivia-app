@@ -8,6 +8,8 @@ import { TitleText, StandardText } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
+import API from "../util/api";
+
 export default class App extends React.Component {
   // TODO: Temporary
   static defaultProps = {
@@ -19,6 +21,11 @@ export default class App extends React.Component {
 
   state = {
     pushEnabled: true
+  };
+
+  handleLogout = () => {
+    API.setUsername();
+    this.props.goTo("Welcome");
   };
 
   render() {
@@ -39,6 +46,7 @@ export default class App extends React.Component {
             Enable Notifications
           </PrimaryButton>
         )}
+        <SecondaryButton onPress={this.handleLogout}>Logout</SecondaryButton>
       </Container>
     );
   }
