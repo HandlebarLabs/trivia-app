@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate-latest": "knex migrate:latest",
+    "db:seed": "knex seed:run"
   },
   "author": "Spencer Carli <spencer@handlebarlabs.com>",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "knex": "^0.14.4",
+    "sqlite3": "^4.0.0"
   }
 }
