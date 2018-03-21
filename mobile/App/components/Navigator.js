@@ -1,24 +1,49 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Animated, Dimensions } from "react-native";
 
-import Animator from "./Animator";
+const { width } = Dimensions.get("window");
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentScene: props.initialSceneName || Object.keys(props.scenes)[0],
-      sceneVisible: true
+      currentScene: props.initialSceneName || Object.keys(props.scenes)[0]
     };
   }
 
+  animatedValue = new Animated.Value(0);
+
+  componentDidMount() {
+    this.display();
+  }
+
+  display = () => {
+    return new Promise(resolve => {
+      Animated.spring(this.animatedValue, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+      }).start(() => resolve());
+    });
+  };
+
+  dismiss = () => {
+    return new Promise(resolve => {
+      Animated.spring(this.animatedValue, {
+        toValue: 2,
+        duration: 500,
+        useNativeDriver: true
+      }).start(() => {
+        this.animatedValue.setValue(0);
+        resolve();
+      });
+    });
+  };
+
   goTo = sceneName => {
-    // TODO: Improve this
-    this.setState({ sceneVisible: false }, () => {
-      setTimeout(() => {
-        this.setState({ currentScene: sceneName, sceneVisible: true });
-      }, Animator.ANIMATION_DURATION / 2);
+    this.dismiss().then(() => {
+      this.setState({ currentScene: sceneName }, () => this.display());
     });
   };
 
@@ -27,10 +52,23 @@ export default class App extends React.Component {
     const CurrentScene = scene ? scene.component : View;
     const sceneProps = scene ? scene.props : {};
 
+    const translateX = this.animatedValue.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [width, 0, -width]
+    });
+
+    const s = [
+      {
+        alignSelf: "stretch",
+        flex: 1,
+        transform: [{ translateX }]
+      }
+    ];
+
     return (
-      <Animator visible={this.state.sceneVisible}>
+      <Animated.View style={s}>
         <CurrentScene goTo={this.goTo} {...sceneProps} />
-      </Animator>
+      </Animated.View>
     );
   }
 }

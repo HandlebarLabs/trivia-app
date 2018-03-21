@@ -7,7 +7,6 @@ import { QuestionText } from "../components/Text";
 import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
-import Animator from "../components/Animator";
 
 import API from "../util/api";
 
