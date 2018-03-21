@@ -9,7 +9,7 @@ import TextInput from "../components/TextInput";
 
 export default class App extends React.Component {
   handleNext = () => {
-    alert("enable pressed");
+    this.props.goTo("Account");
   };
 
   render() {

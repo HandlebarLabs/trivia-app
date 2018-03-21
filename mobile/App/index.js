@@ -6,6 +6,9 @@ import Question from "./screens/Question";
 import Waiting from "./screens/Waiting";
 import Welcome from "./screens/Welcome";
 
+import Navigator from "./components/Navigator";
+import Container from "./components/Container";
+
 export default class App extends React.Component {
   state = {
     appReady: false,
@@ -14,6 +17,19 @@ export default class App extends React.Component {
   };
 
   render() {
-    return <Question />;
+    return (
+      <Container>
+        <Navigator
+          initialSceneName="Welcome"
+          scenes={{
+            Welcome: { component: Welcome },
+            Account: { component: Account },
+            EnablePush: { component: EnablePush },
+            Question: { component: Question },
+            Waiting: { component: Waiting }
+          }}
+        />
+      </Container>
+    );
   }
 }

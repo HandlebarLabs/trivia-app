@@ -37,8 +37,7 @@ export default class App extends React.Component {
   state = {
     answered: false,
     wasCorrect: null,
-    userAnswer: {},
-    cardVisible: true
+    userAnswer: {}
   };
 
   handleAnswer = answer => {
@@ -50,7 +49,7 @@ export default class App extends React.Component {
   };
 
   handleNext = () => {
-    this.setState({ cardVisible: false });
+    this.props.goTo("Waiting");
   };
 
   renderResults = () => (
@@ -88,22 +87,18 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
-        <Animator visible={this.state.cardVisible}>
-          <Card>
-            <QuestionText>
-              Which christian missionary is said to have banished all the snakes
-              from Ireland?
-            </QuestionText>
-            {this.state.answered
-              ? this.renderResults()
-              : this.renderQuestions()}
-          </Card>
-          {this.state.answered ? (
-            <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
-          ) : (
-            <ButtonPlaceholder />
-          )}
-        </Animator>
+        <Card>
+          <QuestionText>
+            Which christian missionary is said to have banished all the snakes
+            from Ireland?
+          </QuestionText>
+          {this.state.answered ? this.renderResults() : this.renderQuestions()}
+        </Card>
+        {this.state.answered ? (
+          <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
+        ) : (
+          <ButtonPlaceholder />
+        )}
       </Container>
     );
   }

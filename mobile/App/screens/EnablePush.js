@@ -9,11 +9,11 @@ import TextInput from "../components/TextInput";
 
 export default class App extends React.Component {
   handleEnable = () => {
-    alert("enable pressed");
+    this.props.goTo("Question");
   };
 
   handleDismiss = () => {
-    alert("dismiss pressed");
+    this.props.goTo("Question");
   };
 
   render() {

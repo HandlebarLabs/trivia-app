@@ -2,6 +2,7 @@ import React from "react";
 import { Animated } from "react-native";
 
 export default class App extends React.Component {
+  static ANIMATION_DURATION = 1000;
   static defaultProps = {
     visible: true
   };
@@ -25,7 +26,7 @@ export default class App extends React.Component {
   display = () => {
     Animated.spring(this.animatedValue, {
       toValue: 1,
-      duration: 1000,
+      duration: this.ANIMATION_DURATION,
       useNativeDriver: true
     }).start();
   };
@@ -33,7 +34,7 @@ export default class App extends React.Component {
   dismiss = () => {
     Animated.spring(this.animatedValue, {
       toValue: 0,
-      duration: 1000,
+      duration: this.ANIMATION_DURATION,
       useNativeDriver: true
     }).start();
   };
@@ -52,6 +53,7 @@ export default class App extends React.Component {
     const s = [
       {
         alignSelf: "stretch",
+        flex: 1,
         opacity: this.animatedValue,
         transform: [{ rotateY }, { scale }]
       }
