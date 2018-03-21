@@ -12,35 +12,17 @@ import Animator from "../components/Animator";
 import API from "../util/api";
 
 export default class App extends React.Component {
-  // TODO: Only temporary
-  static defaultProps = {
-    question:
-      "Which christian missionary is said to have banished all the snakes from Ireland?",
-    totalResponses: 20,
-    answers: [
-      {
-        answer: "Patrick Star",
-        answerCount: 10,
-        correct: false
-      },
-      {
-        answer: "Saint Patrick",
-        answerCount: 7,
-        correct: true
-      },
-      {
-        answer: "Neil Patrick Harris",
-        answerCount: 3,
-        correct: false
-      }
-    ]
-  };
-
   state = {
     answered: false,
     wasCorrect: null,
     userAnswer: {}
   };
+
+  componentDidMount() {
+    if (this.props.questions.length === 0) {
+      this.props.goTo("Waiting");
+    }
+  }
 
   handleAnswer = answer => {
     this.setState({
@@ -56,9 +38,9 @@ export default class App extends React.Component {
     this.props.goTo("Waiting");
   };
 
-  renderResults = () => (
+  renderResults = ({ answers, totalResponses }) => (
     <View>
-      {this.props.answers.map(answer => {
+      {answers.map(answer => {
         const wasUserAnswer = answer.answer === this.state.userAnswer.answer;
         return (
           <AnswerRow
@@ -67,7 +49,7 @@ export default class App extends React.Component {
             answerResponses={
               wasUserAnswer ? answer.answerCount + 1 : answer.answerCount
             }
-            totalResponses={this.props.totalResponses + 1}
+            totalResponses={totalResponses + 1}
             wasUserAnswer={wasUserAnswer}
             wasCorrect={this.state.wasCorrect}
           />
@@ -76,9 +58,9 @@ export default class App extends React.Component {
     </View>
   );
 
-  renderQuestions = () => (
+  renderQuestions = ({ answers }) => (
     <View>
-      {this.props.answers.map(answer => (
+      {answers.map(answer => (
         <QuestionRow
           key={answer.answer}
           answer={answer.answer}
@@ -89,14 +71,20 @@ export default class App extends React.Component {
   );
 
   render() {
+    if (this.props.questions.length === 0) {
+      return null;
+    }
+
+    const currentQuestion = this.props.questions[
+      this.props.activeQuestionIndex
+    ];
     return (
       <Container>
         <Card>
-          <QuestionText>
-            Which christian missionary is said to have banished all the snakes
-            from Ireland?
-          </QuestionText>
-          {this.state.answered ? this.renderResults() : this.renderQuestions()}
+          <QuestionText>{currentQuestion.question}</QuestionText>
+          {this.state.answered
+            ? this.renderResults(currentQuestion)
+            : this.renderQuestions(currentQuestion)}
         </Card>
         {this.state.answered ? (
           <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>

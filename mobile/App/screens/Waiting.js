@@ -11,11 +11,6 @@ import Stats from "../components/Stats";
 import API from "../util/api";
 
 export default class App extends React.Component {
-  // TODO: Temporary
-  static defaultProps = {
-    nextQuestionTime: moment().add(20, "minutes")
-  };
-
   state = {
     pushEnabled: true, // TODO: Fix
     correctAnswers: "...",

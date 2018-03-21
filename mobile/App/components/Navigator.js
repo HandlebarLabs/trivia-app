@@ -25,10 +25,11 @@ export default class App extends React.Component {
   render() {
     const scene = this.props.scenes[this.state.currentScene];
     const CurrentScene = scene ? scene.component : View;
+    const sceneProps = scene ? scene.props : {};
 
     return (
       <Animator visible={this.state.sceneVisible}>
-        <CurrentScene goTo={this.goTo} />
+        <CurrentScene goTo={this.goTo} {...sceneProps} />
       </Animator>
     );
   }

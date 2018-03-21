@@ -15,7 +15,9 @@ import API from "./util/api";
 export default class App extends React.Component {
   state = {
     appReady: false,
-    completedOnboarding: false
+    completedOnboarding: false,
+    nextQuestionTime: null,
+    questions: []
   };
 
   componentDidMount() {
@@ -26,6 +28,13 @@ export default class App extends React.Component {
       }
 
       this.setState(updatedState);
+    });
+
+    API.getQuestions().then(data => {
+      this.setState({
+        questions: data.questions,
+        nextQuestionTime: data.nextQuestionTime
+      });
     });
   }
 
@@ -43,8 +52,17 @@ export default class App extends React.Component {
               Welcome: { component: Welcome },
               Account: { component: Account },
               EnablePush: { component: EnablePush },
-              Question: { component: Question },
-              Waiting: { component: Waiting }
+              Question: {
+                component: Question,
+                props: {
+                  questions: this.state.questions,
+                  activeQuestionIndex: 0
+                }
+              },
+              Waiting: {
+                component: Waiting,
+                props: { nextQuestionTime: this.state.nextQuestionTime }
+              }
             }}
           />
         ) : (
