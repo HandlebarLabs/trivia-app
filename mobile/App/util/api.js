@@ -35,6 +35,18 @@ const incrementAnswered = wasCorrect => {
   });
 };
 
+const answerQuestion = (question, answer) => {
+  incrementAnswered(answer.correct);
+
+  // TODO: Make API call
+  // return fetch(`${ENDPOINT}/answer-question/${question._id}`, {
+  //   method: 'POST',
+  //   body: JSON.stringify({
+  //     answer,
+  //   })
+  // });
+};
+
 const getUserStats = () => {
   return AsyncStorage.multiGet([TOTAL_ANSWERED, CORRECT_ANSWERED]).then(
     ([total, correct]) => {
@@ -47,6 +59,8 @@ const getUserStats = () => {
 };
 
 export const getQuestions = () => {
+  // TODO: Make API call
+  // return fetch(`${ENDPOINT}/next-questions`);
   return Promise.resolve({
     nextQuestionTime: moment().add(20, "minutes"),
     questions: [
@@ -82,5 +96,6 @@ export default {
   getUsername,
   incrementAnswered,
   getUserStats,
-  getQuestions
+  getQuestions,
+  answerQuestion
 };

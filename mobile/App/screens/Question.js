@@ -23,14 +23,14 @@ export default class App extends React.Component {
     }
   }
 
-  handleAnswer = answer => {
+  handleAnswer = (question, answer) => {
     this.setState({
       answered: true,
       wasCorrect: answer.correct,
       userAnswer: answer
     });
 
-    API.incrementAnswered(answer.correct);
+    API.answerQuestion(question, answer);
   };
 
   handleNext = () => {
@@ -57,13 +57,13 @@ export default class App extends React.Component {
     </View>
   );
 
-  renderQuestions = ({ answers }) => (
+  renderQuestions = question => (
     <View>
-      {answers.map(answer => (
+      {question.answers.map(answer => (
         <QuestionRow
           key={answer.answer}
           answer={answer.answer}
-          onPress={() => this.handleAnswer(answer)}
+          onPress={() => this.handleAnswer(question, answer)}
         />
       ))}
     </View>
