@@ -65,7 +65,19 @@ app.get("/", (req, res) => {
   res.send("Hello to the Trivia API!");
 });
 
-app.get("/next-questions", (req, res) => {
+app.post("/user", (req, res) => {
+  const pushTokens = [];
+  if (req.body.pushToken) {
+    pushTokens.push(req.body.pushToken);
+  }
+
+  db.table("users").insert({
+    username: req.body.username,
+    pushTokens: JSON.stringify(pushTokens)
+  });
+});
+
+app.get("/questions/next", (req, res) => {
   db
     .table("questions")
     .where({ isCurrent: true })
@@ -75,10 +87,13 @@ app.get("/next-questions", (req, res) => {
         nextQuestionTime: nextQuestionJob.nextInvocation(),
         questions: [{ ...question, answers: JSON.parse(question.answers) }]
       });
+    })
+    .catch(error => {
+      res.status(500).json({ error });
     });
 });
 
-app.put("/answer-question/:questionId", (req, res) => {
+app.put("/questions/answer/:questionId", (req, res) => {
   db
     .table("questions")
     .where({ _id: req.params.questionId })
@@ -104,7 +119,10 @@ app.put("/answer-question/:questionId", (req, res) => {
           answers: JSON.stringify(question.answers)
         });
     })
-    .then(() => res.status(200).json({ message: "success" }));
+    .then(() => res.status(200).json({ message: "success" }))
+    .catch(error => {
+      res.status(500).json({ error });
+    });
 });
 
 app.listen(3000, () => console.log("server started"));

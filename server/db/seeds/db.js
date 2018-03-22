@@ -1,56 +1,65 @@
+const csv = require("csvtojson");
+
 exports.seed = (knex, Promise) => {
-  return knex("questions")
-    .del()
-    .then(() => {
-      return knex("questions").insert([
-        {
-          question:
-            "Which christian missionary is said to have banished all the snakes from Ireland?",
-          totalResponses: 0,
-          asked: false,
-          isCurrent: true,
-          answers: JSON.stringify([
-            {
-              answer: "Patrick Star",
-              answerCount: 0,
-              correct: false
-            },
-            {
-              answer: "Saint Patrick",
-              answerCount: 0,
-              correct: true
-            },
-            {
-              answer: "Neil Patrick Harris",
-              answerCount: 0,
-              correct: false
-            }
-          ])
-        },
-        {
-          question:
-            "Fonts that contain small decorative lines at the end of a stroke are known as what?",
+  const data = [];
+  return new Promise(resolve => {
+    csv()
+      .fromFile(`${__dirname}/../data/questions.csv`)
+      .on("json", jsonObj => {
+        const newRow = {
+          question: jsonObj["Question"],
           totalResponses: 0,
           asked: false,
           isCurrent: false,
-          answers: JSON.stringify([
+          answers: [
             {
-              answer: "Sans Serif Fonts",
+              answer: jsonObj["Answer 1"],
               answerCount: 0,
-              correct: false
+              correct: jsonObj["Answer 1"] === jsonObj["Correct Answer"]
             },
             {
-              answer: "Script Fonts",
+              answer: jsonObj["Answer 2"],
               answerCount: 0,
-              correct: false
+              correct: jsonObj["Answer 2"] === jsonObj["Correct Answer"]
             },
             {
-              answer: "Serif Fonts",
+              answer: jsonObj["Answer 3"],
               answerCount: 0,
-              correct: true
+              correct: jsonObj["Answer 3"] === jsonObj["Correct Answer"]
             }
-          ])
+          ]
+        };
+
+        if (jsonObj["Answer 4"] && jsonObj["Answer 4"].length > 0) {
+          newRow.answers.push({
+            answer: jsonObj["Answer 4"],
+            answerCount: 0,
+            correct: jsonObj["Answer 4"] === jsonObj["Correct Answer"]
+          });
         }
-      ]);
-    });
+
+        let hasACorrectAnswer = false;
+        newRow.answers.forEach(answer => {
+          if (answer.correct === true) {
+            hasACorrectAnswer = true;
+          }
+        });
+
+        if (hasACorrectAnswer) {
+          data.push({
+            ...newRow,
+            answers: JSON.stringify(newRow.answers)
+          });
+        }
+      })
+      .on("done", error => {
+        data[0].isCurrent = true;
+        return knex("questions")
+          .del()
+          .then(() => {
+            return knex("questions").insert(data);
+          })
+          .then(() => resolve());
+      });
+  });
 };

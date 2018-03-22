@@ -23,7 +23,18 @@ const setUsername = username => {
     [USERNAME, username],
     [TOTAL_ANSWERED, "0"],
     [CORRECT_ANSWERED, "0"]
-  ]);
+  ]).then(() => {
+    return fetch(`${ENDPOINT}/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username
+        // pushToken
+      })
+    });
+  });
 };
 
 const getUsername = () => {
@@ -48,7 +59,7 @@ const answerQuestion = (question, answer) => {
   incrementAnswered(answer.correct);
   setLastAnsweredQuestion(question._id);
 
-  return fetch(`${ENDPOINT}/answer-question/${question._id}`, {
+  return fetch(`${ENDPOINT}/questions/answer/${question._id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -71,7 +82,7 @@ const getUserStats = () => {
 };
 
 export const getQuestions = () => {
-  return fetch(`${ENDPOINT}/next-questions`)
+  return fetch(`${ENDPOINT}/questions/next`)
     .then(res => res.json())
     .then(data => {
       return Promise.all([AsyncStorage.getItem(LAST_ANSWERED_QUESTION), data]);

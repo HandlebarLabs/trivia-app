@@ -1,14 +1,31 @@
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable("questions", table => {
-    table.increments("_id");
-    table.text("question");
-    table.integer("totalResponses");
-    table.json("answers");
-    table.boolean("asked");
-    table.boolean("isCurrent");
-  });
+  const chain = [];
+
+  chain.push(
+    knex.schema.createTable("questions", table => {
+      table.increments("_id");
+      table.text("question");
+      table.integer("totalResponses");
+      table.json("answers");
+      table.boolean("asked");
+      table.boolean("isCurrent");
+    })
+  );
+
+  chain.push(
+    knex.schema.createTable("users", table => {
+      table.increments("_id");
+      table.string("username");
+      table.json("pushTokens");
+    })
+  );
+
+  return Promise.all(chain);
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable("questions");
+  return Promise.all([
+    knex.schema.dropTable("questions"),
+    knex.schema.dropTable("users")
+  ]);
 };
