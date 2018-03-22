@@ -4,6 +4,7 @@ import moment from "moment";
 const USERNAME = "username";
 const TOTAL_ANSWERED = "totalAnswered";
 const CORRECT_ANSWERED = "correctAnswered";
+const LAST_ANSWERED_QUESTION = "lastAnsweredQuestion";
 
 // TODO: Make this the public url
 const ENDPOINT = "http://localhost:3000";
@@ -13,7 +14,8 @@ const setUsername = username => {
     return AsyncStorage.multiRemove([
       USERNAME,
       TOTAL_ANSWERED,
-      CORRECT_ANSWERED
+      CORRECT_ANSWERED,
+      LAST_ANSWERED_QUESTION
     ]);
   }
 
@@ -38,8 +40,13 @@ const incrementAnswered = wasCorrect => {
   });
 };
 
+const setLastAnsweredQuestion = questionId => {
+  return AsyncStorage.setItem(LAST_ANSWERED_QUESTION, questionId.toString());
+};
+
 const answerQuestion = (question, answer) => {
   incrementAnswered(answer.correct);
+  setLastAnsweredQuestion(question._id);
 
   return fetch(`${ENDPOINT}/answer-question/${question._id}`, {
     method: "PUT",
@@ -64,13 +71,26 @@ const getUserStats = () => {
 };
 
 export const getQuestions = () => {
-  return fetch(`${ENDPOINT}/next-questions`).then(res => res.json());
+  return fetch(`${ENDPOINT}/next-questions`)
+    .then(res => res.json())
+    .then(data => {
+      return Promise.all([AsyncStorage.getItem(LAST_ANSWERED_QUESTION), data]);
+    })
+    .then(([lastQuestionAnsweredId, data]) => {
+      if (data.questions && data.questions[0]._id == lastQuestionAnsweredId) {
+        return {
+          ...data,
+          questions: []
+        };
+      } else {
+        return data;
+      }
+    });
 };
 
 export default {
   setUsername,
   getUsername,
-  incrementAnswered,
   getUserStats,
   getQuestions,
   answerQuestion
