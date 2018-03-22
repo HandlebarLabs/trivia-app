@@ -3,7 +3,7 @@ const db = require("../db");
 const incrementAnswerCount = (q, answer) => {
   const question = {
     ...q,
-    answers: JSON.parse(question.answers)
+    answers: JSON.parse(q.answers)
   };
 
   question.answers.forEach(answer => {

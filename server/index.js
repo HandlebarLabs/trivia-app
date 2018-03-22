@@ -22,38 +22,44 @@ const nextQuestionJob = jobs.createNewQuestionJob();
 /*
  * Routes
  */
+const formatResponse = require("./helpers/formatResponse");
+
 app.get("/", (req, res) => {
   res.send("Hello to the Trivia API!");
 });
 
 app.post("/user", (req, res) => {
   return User.createUser(req.body.username)
-    .then(() => {
-      res.status(200).json({ message: "success" });
+    .then(user => {
+      formatResponse(res, "success", user);
     })
-    .catch(error => res.status(500).json({ message: "error", error }));
+    .catch(error => formatResponse(res, "error", error));
+});
+
+app.put("/user/add-push-token", (req, res) => {
+  return User.addPushToken({ _id: req.headers.userid }, req.body.pushToken)
+    .then(() => formatResponse(res, "success"))
+    .catch(error => formatResponse(res, "error", error));
 });
 
 app.get("/questions/next", (req, res) => {
   return Question.getNextQuestion()
     .then(question => {
-      res.status(200).json({
+      const data = {
         message: "success",
         nextQuestionTime: nextQuestionJob.nextInvocation(),
         questions: [{ ...question, answers: JSON.parse(question.answers) }]
-      });
+      };
+
+      formatResponse(res, "success", data);
     })
-    .catch(error => {
-      res.status(500).json({ message: "error", error });
-    });
+    .catch(error => formatResponse(res, "error", error));
 });
 
 app.put("/questions/answer/:questionId", (req, res) => {
   return Question.answerQuestion(req.params.questionId, req.body.answer)
-    .then(() => res.status(200).json({ message: "success" }))
-    .catch(error => {
-      res.status(500).json({ message: "error", error });
-    });
+    .then(() => formatResponse(res, "success"))
+    .catch(error => formatResponse(res, "error", error));
 });
 
 /*

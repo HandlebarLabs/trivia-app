@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       table.increments("_id");
       table.text("question");
       table.integer("totalResponses");
-      table.json("answers");
+      table.text("answers");
       table.boolean("asked");
       table.boolean("isCurrent");
     })
@@ -16,7 +16,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable("users", table => {
       table.increments("_id");
       table.string("username");
-      table.json("pushTokens");
+      table.text("pushTokens");
     })
   );
 
