@@ -71,10 +71,15 @@ app.post("/user", (req, res) => {
     pushTokens.push(req.body.pushToken);
   }
 
-  db.table("users").insert({
-    username: req.body.username,
-    pushTokens: JSON.stringify(pushTokens)
-  });
+  return db
+    .table("users")
+    .insert({
+      username: req.body.username,
+      pushTokens: JSON.stringify(pushTokens)
+    })
+    .then(() => {
+      res.status(200).json({ message: "success" });
+    });
 });
 
 app.get("/questions/next", (req, res) => {

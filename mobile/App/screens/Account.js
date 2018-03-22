@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
@@ -32,7 +31,10 @@ export default class App extends React.Component {
           <StandardText>Choose a username to start playing!</StandardText>
           <TextInput
             placeholder="username"
+            autoCapitalize="none"
             onChangeText={username => this.setState({ username })}
+            returnKeyType="next"
+            onSubmitEditing={this.handleJoin}
           />
         </Card>
         <PrimaryButton onPress={this.handleJoin}>Join</PrimaryButton>
