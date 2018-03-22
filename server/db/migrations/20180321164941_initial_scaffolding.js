@@ -4,6 +4,8 @@ exports.up = function(knex, Promise) {
     table.text("question");
     table.integer("totalResponses");
     table.json("answers");
+    table.boolean("asked");
+    table.boolean("isCurrent");
   });
 };
 
