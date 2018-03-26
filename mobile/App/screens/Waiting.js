@@ -8,16 +8,11 @@ import { TitleText, StandardText } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
-export default class App extends React.Component {
-  state = {
-    pushEnabled: true, // TODO: Fix
-    correctAnswers: "...",
-    questionsAnswered: "...",
-    username: "..."
-  };
+import * as UserData from "../util/UserData";
 
+class Waiting extends React.Component {
   handleLogout = () => {
-    alert("TODO: Set username");
+    this.props.logout();
     this.props.goTo("Welcome");
   };
 
@@ -29,13 +24,13 @@ export default class App extends React.Component {
             Next question in{" "}
             {moment(new Date(this.props.nextQuestionTime)).toNow(true)}
           </TitleText>
-          <StandardText center>{this.state.username}</StandardText>
+          <StandardText center>{this.props.username}</StandardText>
           <Stats
-            correct={this.state.correctAnswers}
-            total={this.state.questionsAnswered}
+            correct={this.props.correctAnswered}
+            total={this.props.totalAnswered}
           />
         </Card>
-        {!this.state.pushEnabled && (
+        {!this.props.pushEnabled && (
           <PrimaryButton onPress={this.handleNext}>
             Enable Notifications
           </PrimaryButton>
@@ -45,3 +40,18 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default props => (
+  <UserData.Consumer>
+    {({ logout, totalAnswered, correctAnswered, username, pushEnabled }) => (
+      <Waiting
+        {...props}
+        logout={logout}
+        totalAnswered={totalAnswered}
+        correctAnswered={correctAnswered}
+        username={username}
+        pushEnabled={pushEnabled}
+      />
+    )}
+  </UserData.Consumer>
+);

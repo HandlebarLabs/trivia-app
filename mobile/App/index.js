@@ -10,43 +10,37 @@ import Welcome from "./screens/Welcome";
 import Navigator from "./components/Navigator";
 import Container from "./components/Container";
 
+import * as UserData from "./util/UserData";
+
 export default class App extends React.Component {
-  state = {
-    appReady: false,
-    completedOnboarding: false,
-    nextQuestionTime: null,
-    questions: []
-  };
-
-  componentDidMount() {
-    this.setState({ appReady: true });
-  }
-
   render() {
-    const initialSceneName = this.state.completedOnboarding
-      ? "Question"
-      : "Welcome";
-
     return (
       <Container>
-        {this.state.appReady ? (
-          <Navigator
-            initialSceneName={initialSceneName}
-            scenes={{
-              Welcome: { component: Welcome },
-              Account: { component: Account },
-              EnablePush: { component: EnablePush },
-              Question: {
-                component: Question
-              },
-              Waiting: {
-                component: Waiting
+        <UserData.Provider>
+          <UserData.Consumer>
+            {({ onboardingComplete, ready }) => {
+              if (!ready) {
+                return <ActivityIndicator size="large" color="#fff" />;
               }
+
+              const initialSceneName = onboardingComplete
+                ? "Question"
+                : "Welcome";
+              return (
+                <Navigator
+                  initialSceneName={initialSceneName}
+                  scenes={{
+                    Welcome: { component: Welcome },
+                    Account: { component: Account },
+                    EnablePush: { component: EnablePush },
+                    Question: { component: Question },
+                    Waiting: { component: Waiting }
+                  }}
+                />
+              );
             }}
-          />
-        ) : (
-          <ActivityIndicator size="large" color="#fff" />
-        )}
+          </UserData.Consumer>
+        </UserData.Provider>
       </Container>
     );
   }

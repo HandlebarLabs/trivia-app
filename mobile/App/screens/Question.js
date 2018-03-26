@@ -16,6 +16,12 @@ export default class App extends React.Component {
     questions: []
   };
 
+  componentDidMount() {
+    if (this.state.questions.length === 0) {
+      this.props.goTo("Waiting");
+    }
+  }
+
   handleAnswer = (question, answer) => {
     this.setState({
       answered: true,

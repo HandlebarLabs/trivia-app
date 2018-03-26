@@ -7,12 +7,18 @@ import { TitleText, StandardText } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import TextInput from "../components/TextInput";
 
-export default class App extends React.Component {
+import * as UserData from "../util/UserData";
+
+class EnablePush extends React.Component {
   handleEnable = () => {
-    this.props.goTo("Question");
+    this.props.enablePushNotifications().then(() => {
+      this.props.completeOnboarding();
+      this.props.goTo("Question");
+    });
   };
 
   handleDismiss = () => {
+    this.props.completeOnboarding();
     this.props.goTo("Question");
   };
 
@@ -32,3 +38,15 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default props => (
+  <UserData.Consumer>
+    {({ completeOnboarding, enablePushNotifications }) => (
+      <EnablePush
+        {...props}
+        completeOnboarding={completeOnboarding}
+        enablePushNotifications={enablePushNotifications}
+      />
+    )}
+  </UserData.Consumer>
+);

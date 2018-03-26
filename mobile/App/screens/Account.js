@@ -6,13 +6,20 @@ import { TitleText, StandardText } from "../components/Text";
 import { PrimaryButton } from "../components/Button";
 import TextInput from "../components/TextInput";
 
-export default class App extends React.Component {
-  state = {
-    username: ""
-  };
+import * as UserData from "../util/UserData";
+
+class Account extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: props.username
+    };
+  }
 
   handleJoin = () => {
-    if (this.state.username.length > 0) {
+    if (this.state.username && this.state.username.length > 0) {
+      this.props.setUsername(this.state.username);
       this.props.goTo("EnablePush");
     } else {
       alert("Username is required.");
@@ -31,6 +38,7 @@ export default class App extends React.Component {
             onChangeText={username => this.setState({ username })}
             returnKeyType="next"
             onSubmitEditing={this.handleJoin}
+            defaultValue={this.state.username}
           />
         </Card>
         <PrimaryButton onPress={this.handleJoin}>Join</PrimaryButton>
@@ -38,3 +46,11 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default props => (
+  <UserData.Consumer>
+    {({ username, setUsername }) => (
+      <Account {...props} username={username} setUsername={setUsername} />
+    )}
+  </UserData.Consumer>
+);
