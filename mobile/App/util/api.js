@@ -24,44 +24,6 @@ const setLastAnsweredQuestion = questionId => {
   return Promise.resolve();
 };
 
-const answerQuestion = (question, answer) => {
-  // incrementAnswered(answer.correct);
-  // setLastAnsweredQuestion(question._id);
-
-  // return fetch(`${ENDPOINT}/questions/answer/${question._id}`, {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   },
-  //   body: JSON.stringify({
-  //     answer
-  //   })
-  // });
-  return Promise.resolve();
-};
-
-export const getQuestions = () => {
-  // return fetch(`${ENDPOINT}/questions/next`)
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     return Promise.all([AsyncStorage.getItem(LAST_ANSWERED_QUESTION), data]);
-  //   })
-  //   .then(([lastQuestionAnsweredId, data]) => {
-  //     if (data.questions && data.questions[0]._id == lastQuestionAnsweredId) {
-  //       return {
-  //         ...data,
-  //         questions: []
-  //       };
-  //     } else {
-  //       return data;
-  //     }
-  //   });
-  return Promise.resolve({
-    questions: [],
-    nextQuestionTime: "2018-03-22T23:00:00.000Z"
-  });
-};
-
 export default {
   getQuestions,
   answerQuestion

@@ -8,6 +8,7 @@ import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
 
+import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
 
 class Question extends React.Component {
@@ -30,6 +31,7 @@ class Question extends React.Component {
       userAnswer: answer
     });
 
+    this.props.updateUserStats(question, answer);
     this.props.answerQuestion(question, answer);
   };
 
@@ -96,13 +98,18 @@ class Question extends React.Component {
 }
 
 export default props => (
-  <QuestionData.Consumer>
-    {({ questions, answerQuestion }) => (
-      <Question
-        {...props}
-        questions={questions}
-        answerQuestion={answerQuestion}
-      />
+  <UserData.Consumer>
+    {user => (
+      <QuestionData.Consumer>
+        {question => (
+          <Question
+            {...props}
+            questions={question.questions}
+            answerQuestion={question.answerQuestion}
+            updateUserStats={user.answerQuestion}
+          />
+        )}
+      </QuestionData.Consumer>
     )}
-  </QuestionData.Consumer>
+  </UserData.Consumer>
 );

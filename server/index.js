@@ -43,12 +43,12 @@ app.put("/user/add-push-token", (req, res) => {
 });
 
 app.get("/questions/next", (req, res) => {
-  return Question.getNextQuestion()
-    .then(question => {
+  return Question.getNextQuestions()
+    .then(questions => {
       const data = {
         message: "success",
         nextQuestionTime: nextQuestionJob.nextInvocation(),
-        questions: [{ ...question, answers: JSON.parse(question.answers) }]
+        questions
       };
 
       formatResponse(res, "success", data);

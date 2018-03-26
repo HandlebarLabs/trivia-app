@@ -77,15 +77,22 @@ const setNewQuestion = () => {
     .then(() => setNewCurrentQuestion());
 };
 
-const getNextQuestion = () => {
+const getNextQuestions = () => {
   return db
     .table("questions")
     .where({ isCurrent: true })
-    .first();
+    .then(questions =>
+      questions.map(q => {
+        return {
+          ...q,
+          answers: JSON.parse(q.answers)
+        };
+      })
+    );
 };
 
 module.exports = {
   answerQuestion,
-  getNextQuestion,
+  getNextQuestions,
   setNewQuestion
 };

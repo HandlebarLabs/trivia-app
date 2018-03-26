@@ -53,6 +53,17 @@ export class Provider extends React.Component {
     return Promise.resolve();
   };
 
+  answerQuestion = (question, answer) => {
+    this.setState(state => {
+      return {
+        totalAnswered: state.totalAnswered + 1,
+        correctAnswered: answer.correct
+          ? state.correctAnswered + 1
+          : state.correctAnswered
+      };
+    });
+  };
+
   render() {
     return (
       <UserContext.Provider
@@ -61,7 +72,8 @@ export class Provider extends React.Component {
           logout: this.logout,
           completeOnboarding: this.completeOnboarding,
           setUsername: this.setUsername,
-          enablePushNotifications: this.enablePushNotifications
+          enablePushNotifications: this.enablePushNotifications,
+          answerQuestion: this.answerQuestion
         }}
       >
         {this.props.children}
