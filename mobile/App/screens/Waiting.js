@@ -9,6 +9,7 @@ import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
 import * as UserData from "../util/UserData";
+import * as QuestionData from "../util/QuestionData";
 
 class Waiting extends React.Component {
   handleLogout = () => {
@@ -22,7 +23,9 @@ class Waiting extends React.Component {
         <Card>
           <TitleText>
             Next question in{" "}
-            {moment(new Date(this.props.nextQuestionTime)).toNow(true)}
+            {this.props.nextQuestionTime
+              ? moment(new Date(this.props.nextQuestionTime)).toNow(true)
+              : "..."}
           </TitleText>
           <StandardText center>{this.props.username}</StandardText>
           <Stats
@@ -41,7 +44,7 @@ class Waiting extends React.Component {
   }
 }
 
-export default props => (
+const WithUserData = props => (
   <UserData.Consumer>
     {({ logout, totalAnswered, correctAnswered, username, pushEnabled }) => (
       <Waiting
@@ -55,3 +58,13 @@ export default props => (
     )}
   </UserData.Consumer>
 );
+
+const WithQuestionData = props => (
+  <QuestionData.Consumer>
+    {({ nextQuestionTime }) => (
+      <WithUserData {...props} nextQuestionTime={nextQuestionTime} />
+    )}
+  </QuestionData.Consumer>
+);
+
+export default WithQuestionData;

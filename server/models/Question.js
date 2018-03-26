@@ -1,24 +1,28 @@
 const db = require("../db");
 
-const incrementAnswerCount = (q, answer) => {
+const incrementAnswerCount = (q, userAnswer) => {
   const question = {
     ...q,
     answers: JSON.parse(q.answers)
   };
 
   question.answers.forEach(answer => {
-    if (answer.answer === answer.answer) {
+    if (answer.answer === userAnswer.answer) {
       answer.answerCount += 1;
     }
   });
 
-  return db
-    .table("questions")
-    .where({ _id: question._id })
-    .update({
-      totalResponses: (question.totalResponses += 1),
-      answers: JSON.stringify(question.answers)
-    });
+  return (
+    db
+      .table("questions")
+      .where({ _id: question._id })
+      .update({
+        totalResponses: (question.totalResponses += 1),
+        answers: JSON.stringify(question.answers)
+      })
+      // TODO: Why is this necessary? Doc isn't updating if this isn't here.
+      .then(() => null)
+  );
 };
 
 const answerQuestion = (questionId, answer) => {

@@ -145,7 +145,7 @@ fetch("/questions/next", {
 ### /questions/answer/:questionId
 
 ```javascript
-fetch("/questions/answer/QUESTION_ID", {
+fetch(`/questions/answer/${QUESTION_ID}`, {
   method: "PUT",
   headers: {
     "Content-Type": "application/json"

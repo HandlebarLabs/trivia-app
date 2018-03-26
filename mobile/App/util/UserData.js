@@ -33,7 +33,10 @@ export class Provider extends React.Component {
   }
 
   componentDidUpdate() {
-    AsyncStorage.setItem("userData", JSON.stringify(this.state));
+    AsyncStorage.setItem(
+      "userData",
+      JSON.stringify({ ...this.state, ready: false })
+    );
   }
 
   logout = () => {

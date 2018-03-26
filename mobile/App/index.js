@@ -11,37 +11,44 @@ import Navigator from "./components/Navigator";
 import Container from "./components/Container";
 
 import * as UserData from "./util/UserData";
+import * as QuestionData from "./util/QuestionData";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Container>
-        <UserData.Provider>
-          <UserData.Consumer>
-            {({ onboardingComplete, ready }) => {
-              if (!ready) {
-                return <ActivityIndicator size="large" color="#fff" />;
-              }
+const App = () => (
+  <Container>
+    <QuestionData.Consumer>
+      {question => (
+        <UserData.Consumer>
+          {user => {
+            if (!user.ready || !question.ready) {
+              return <ActivityIndicator size="large" color="#fff" />;
+            }
 
-              const initialSceneName = onboardingComplete
-                ? "Question"
-                : "Welcome";
-              return (
-                <Navigator
-                  initialSceneName={initialSceneName}
-                  scenes={{
-                    Welcome: { component: Welcome },
-                    Account: { component: Account },
-                    EnablePush: { component: EnablePush },
-                    Question: { component: Question },
-                    Waiting: { component: Waiting }
-                  }}
-                />
-              );
-            }}
-          </UserData.Consumer>
-        </UserData.Provider>
-      </Container>
-    );
-  }
-}
+            const initialSceneName = user.onboardingComplete
+              ? "Question"
+              : "Welcome";
+            return (
+              <Navigator
+                initialSceneName={initialSceneName}
+                scenes={{
+                  Welcome: { component: Welcome },
+                  Account: { component: Account },
+                  EnablePush: { component: EnablePush },
+                  Question: { component: Question },
+                  Waiting: { component: Waiting }
+                }}
+              />
+            );
+          }}
+        </UserData.Consumer>
+      )}
+    </QuestionData.Consumer>
+  </Container>
+);
+
+export default () => (
+  <UserData.Provider>
+    <QuestionData.Provider>
+      <App />
+    </QuestionData.Provider>
+  </UserData.Provider>
+);

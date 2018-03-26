@@ -8,16 +8,17 @@ import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
 
-export default class App extends React.Component {
+import * as QuestionData from "../util/QuestionData";
+
+class Question extends React.Component {
   state = {
     answered: false,
     wasCorrect: null,
-    userAnswer: {},
-    questions: []
+    userAnswer: {}
   };
 
   componentDidMount() {
-    if (this.state.questions.length === 0) {
+    if (this.props.questions.length === 0) {
       this.props.goTo("Waiting");
     }
   }
@@ -28,6 +29,8 @@ export default class App extends React.Component {
       wasCorrect: answer.correct,
       userAnswer: answer
     });
+
+    this.props.answerQuestion(question, answer);
   };
 
   handleNext = () => {
@@ -69,11 +72,11 @@ export default class App extends React.Component {
   );
 
   render() {
-    if (this.state.questions.length === 0) {
+    if (this.props.questions.length === 0) {
       return null;
     }
 
-    const currentQuestion = this.state.questions[0];
+    const currentQuestion = this.props.questions[0];
     return (
       <Container>
         <Card>
@@ -91,3 +94,15 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default props => (
+  <QuestionData.Consumer>
+    {({ questions, answerQuestion }) => (
+      <Question
+        {...props}
+        questions={questions}
+        answerQuestion={answerQuestion}
+      />
+    )}
+  </QuestionData.Consumer>
+);
