@@ -4,6 +4,8 @@ Work in progress.
 
 # Server
 
+TODO: How to run the server
+
 ## API Docs
 
 ### /user
