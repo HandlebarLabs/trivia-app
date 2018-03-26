@@ -8,8 +8,6 @@ import { TitleText, StandardText } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
-import API from "../util/api";
-
 export default class App extends React.Component {
   state = {
     pushEnabled: true, // TODO: Fix
@@ -18,18 +16,8 @@ export default class App extends React.Component {
     username: "..."
   };
 
-  componentDidMount() {
-    API.getUsername().then(username => this.setState({ username }));
-    API.getUserStats().then(stats => {
-      this.setState({
-        correctAnswers: stats.correct,
-        questionsAnswered: stats.total
-      });
-    });
-  }
-
   handleLogout = () => {
-    API.setUsername();
+    alert("TODO: Set username");
     this.props.goTo("Welcome");
   };
 

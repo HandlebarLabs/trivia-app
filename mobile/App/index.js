@@ -10,8 +10,6 @@ import Welcome from "./screens/Welcome";
 import Navigator from "./components/Navigator";
 import Container from "./components/Container";
 
-import API from "./util/api";
-
 export default class App extends React.Component {
   state = {
     appReady: false,
@@ -21,14 +19,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    API.getUsername().then(username => {
-      const updatedState = { appReady: true };
-      if (username && username.length) {
-        updatedState.completedOnboarding = true;
-      }
-
-      this.setState(updatedState);
-    });
+    this.setState({ appReady: true });
   }
 
   render() {
@@ -47,14 +38,9 @@ export default class App extends React.Component {
               EnablePush: { component: EnablePush },
               Question: {
                 component: Question
-                // props: {
-                //   questions: this.state.questions,
-                //   activeQuestionIndex: 0
-                // }
               },
               Waiting: {
                 component: Waiting
-                // props: { nextQuestionTime: this.state.nextQuestionTime }
               }
             }}
           />

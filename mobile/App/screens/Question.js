@@ -8,8 +8,6 @@ import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 import AnswerRow from "../components/AnswerRow";
 
-import API from "../util/api";
-
 export default class App extends React.Component {
   state = {
     answered: false,
@@ -18,27 +16,12 @@ export default class App extends React.Component {
     questions: []
   };
 
-  componentDidMount() {
-    API.getQuestions().then(data => {
-      if (data.questions.length === 0) {
-        this.props.goTo("Waiting", { nextQuestionTime: data.nextQuestionTime });
-      }
-
-      this.setState({
-        questions: data.questions,
-        nextQuestionTime: data.nextQuestionTime
-      });
-    });
-  }
-
   handleAnswer = (question, answer) => {
     this.setState({
       answered: true,
       wasCorrect: answer.correct,
       userAnswer: answer
     });
-
-    API.answerQuestion(question, answer);
   };
 
   handleNext = () => {
