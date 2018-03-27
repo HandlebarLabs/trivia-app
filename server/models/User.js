@@ -41,8 +41,16 @@ const getAllWithNotifications = () => {
     .select("*");
 };
 
+const deleteUser = _id => {
+  return db
+    .table("users")
+    .where({ _id })
+    .del();
+};
+
 module.exports = {
   createUser,
   getAllWithNotifications,
-  addPushToken
+  addPushToken,
+  deleteUser
 };

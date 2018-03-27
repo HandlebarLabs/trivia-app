@@ -10,11 +10,16 @@ import Stats from "../components/Stats";
 
 import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
+import { openSettings } from "../util/pushNotifications";
 
 class Waiting extends React.Component {
   handleLogout = () => {
     this.props.logout();
     this.props.goTo("Welcome");
+  };
+
+  handleSettings = () => {
+    openSettings();
   };
 
   render() {
@@ -34,7 +39,7 @@ class Waiting extends React.Component {
           />
         </Card>
         {!this.props.pushEnabled && (
-          <PrimaryButton onPress={this.handleNext}>
+          <PrimaryButton onPress={this.handleSettings}>
             Enable Notifications
           </PrimaryButton>
         )}

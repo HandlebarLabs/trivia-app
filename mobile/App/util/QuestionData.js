@@ -2,13 +2,13 @@ import React from "react";
 import createReactContext from "create-react-context";
 import { AsyncStorage } from "react-native";
 
+import { ENDPOINT } from "./api";
+
 const defaultState = {
   ready: false,
   questions: [],
   nextQuestionTime: null
 };
-
-const ENDPOINT = "http://localhost:3000";
 
 const QuestionContext = createReactContext(defaultState);
 

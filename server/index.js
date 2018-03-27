@@ -36,6 +36,14 @@ app.post("/user", (req, res) => {
     .catch(error => formatResponse(res, "error", error));
 });
 
+app.delete("/user", (req, res) => {
+  return User.deleteUser(req.headers.userid)
+    .then(() => {
+      formatResponse(res, "success");
+    })
+    .catch(error => formatResponse(res, "error", error));
+});
+
 app.put("/user/add-push-token", (req, res) => {
   return User.addPushToken({ _id: req.headers.userid }, req.body.pushToken)
     .then(() => formatResponse(res, "success"))

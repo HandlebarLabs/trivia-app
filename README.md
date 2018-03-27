@@ -8,7 +8,7 @@ TODO: How to run the server
 
 ## API Docs
 
-### /user
+### POST /user
 
 **Request**
 
@@ -46,7 +46,36 @@ fetch("/user", {
 }
 ```
 
-### /user/add-push-token
+### DELETE /user
+
+```javascript
+fetch("/user", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json",
+    userId: 1
+  }
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success"
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
+
+### PUT /user/add-push-token
 
 ```javascript
 fetch("/user/add-push-token", {
@@ -78,7 +107,7 @@ fetch("/user/add-push-token", {
 }
 ```
 
-### /questions/next
+### GET /questions/next
 
 ```javascript
 fetch("/questions/next", {
@@ -142,7 +171,7 @@ fetch("/questions/next", {
 }
 ```
 
-### /questions/answer/:questionId
+### PUT /questions/answer/:questionId
 
 ```javascript
 fetch(`/questions/answer/${QUESTION_ID}`, {
