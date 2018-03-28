@@ -11,18 +11,10 @@ import AnswerRow from "../components/AnswerRow";
 import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
 
-const defaultState = {
-  answered: false,
-  wasCorrect: null,
-  userAnswer: {}
-};
-
 class Question extends React.Component {
   static defaultProps = {
     questionIndex: 0
   };
-
-  state = defaultState;
 
   componentDidMount() {
     if (this.props.questions.length === 0) {
@@ -31,34 +23,26 @@ class Question extends React.Component {
   }
 
   handleAnswer = (question, answer) => {
-    this.setState({
-      answered: true,
-      wasCorrect: answer.correct,
-      userAnswer: answer
-    });
-
     this.props.updateUserStats(question, answer);
     this.props.answerQuestion(question, answer);
   };
 
   handleNext = () => {
-    this.setState(defaultState, () => {
-      if (this.props.questionIndex < this.props.questions.length - 1) {
-        this.props.goTo("Question", {
-          questionIndex: this.props.questionIndex + 1
-        });
-      } else {
-        this.props.goTo("Waiting", {
-          nextQuestionTime: this.state.nextQuestionTime
-        });
-      }
-    });
+    if (this.props.questionIndex < this.props.questions.length - 1) {
+      this.props.goTo("Question", {
+        questionIndex: this.props.questionIndex + 1
+      });
+    } else {
+      this.props.goTo("Waiting", {
+        nextQuestionTime: this.props.nextQuestionTime
+      });
+    }
   };
 
-  renderResults = ({ answers, totalResponses }) => (
+  renderResults = ({ answers, totalResponses }, userAnswer) => (
     <View>
       {answers.map(answer => {
-        const wasUserAnswer = answer.answer === this.state.userAnswer.answer;
+        const wasUserAnswer = answer.answer === userAnswer.answer;
         return (
           <AnswerRow
             key={answer.answer}
@@ -68,7 +52,7 @@ class Question extends React.Component {
             }
             totalResponses={totalResponses + 1}
             wasUserAnswer={wasUserAnswer}
-            wasCorrect={this.state.wasCorrect}
+            wasCorrect={userAnswer.wasCorrect}
           />
         );
       })}
@@ -93,15 +77,16 @@ class Question extends React.Component {
     }
 
     const currentQuestion = this.props.questions[this.props.questionIndex];
+    const userAnswer = this.props.userAnswers[currentQuestion._id];
     return (
       <Container>
         <Card>
           <QuestionText>{currentQuestion.question}</QuestionText>
-          {this.state.answered
-            ? this.renderResults(currentQuestion)
+          {userAnswer
+            ? this.renderResults(currentQuestion, userAnswer)
             : this.renderQuestions(currentQuestion)}
         </Card>
-        {this.state.answered ? (
+        {userAnswer ? (
           <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
         ) : (
           <ButtonPlaceholder />
@@ -120,7 +105,9 @@ export default props => (
             {...props}
             questions={question.questions}
             answerQuestion={question.answerQuestion}
+            nextQuestionTime={question.nextQuestionTime}
             updateUserStats={user.answerQuestion}
+            userAnswers={user.answers}
           />
         )}
       </QuestionData.Consumer>

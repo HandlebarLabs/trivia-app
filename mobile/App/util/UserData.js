@@ -15,7 +15,8 @@ const defaultState = {
   userId: null,
   totalAnswered: 0,
   correctAnswered: 0,
-  pushEnabled: false
+  pushEnabled: false,
+  answers: {}
 };
 
 const UserContext = createReactContext(defaultState);
@@ -103,6 +104,10 @@ export class Provider extends React.Component {
   answerQuestion = (question, answer) => {
     this.setState(state => {
       return {
+        answers: {
+          ...state.answers,
+          [question._id]: { wasCorrect: answer.correct, answer: answer.answer }
+        },
         totalAnswered: state.totalAnswered + 1,
         correctAnswered: answer.correct
           ? state.correctAnswered + 1
