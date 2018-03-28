@@ -1,9 +1,13 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 
-export const QuestionText = props => (
-  <Text style={styles.question}>{props.children}</Text>
-);
+export const H1 = props => <Text style={styles.title}>{props.children}</Text>;
+
+export const H2 = props => {
+  const s = [styles.question];
+  if (props.center) s.push({ textAlign: "center" });
+  return <Text style={s}>{props.children}</Text>;
+};
 
 export const AnswerText = props => (
   <Text style={[styles.answer, props.bold && styles.answerBold]}>
@@ -15,13 +19,11 @@ export const AnswerRowText = props => (
   <Text style={styles.answerRow}>{props.children}</Text>
 );
 
-export const TitleText = props => (
-  <Text style={styles.title}>{props.children}</Text>
-);
-
-export const StandardText = ({ children, center }) => {
+export const P = ({ children, center, bold }) => {
   const s = [styles.standard];
   if (center) s.push({ textAlign: "center" });
+  if (bold) s.push({ fontFamily: "quicksand-bold" });
+
   return <Text style={s}>{children}</Text>;
 };
 

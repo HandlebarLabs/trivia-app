@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import { TitleText, StandardText } from "../components/Text";
+import { H1, P } from "../components/Text";
 import {
   PrimaryButton,
   SecondaryButton,
@@ -29,11 +29,11 @@ class EnablePush extends React.Component {
     return (
       <Container>
         <Card>
-          <TitleText>Get Notified?</TitleText>
-          <StandardText>
+          <H1>Get Notified?</H1>
+          <P>
             We use push notifications so we can remind you when new trivia
             questions are available!
-          </StandardText>
+          </P>
         </Card>
         <HorizontalButtons>
           <SecondaryButton onPress={this.handleDismiss}>

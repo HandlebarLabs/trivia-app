@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import { QuestionText } from "../components/Text";
+import { H2 } from "../components/Text";
 import { PrimaryButton } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
 
@@ -77,7 +77,7 @@ class Question extends React.Component {
     return (
       <Container>
         <Card>
-          <QuestionText>{currentQuestion.question}</QuestionText>
+          <H2>{currentQuestion.question}</H2>
           {this.renderQuestions(currentQuestion, userAnswer)}
         </Card>
         {userAnswer && (

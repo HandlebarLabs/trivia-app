@@ -35,7 +35,7 @@ class App extends React.Component {
                 // const initialSceneName = user.onboardingComplete
                 // ? "Question"
                 // : "Welcome";
-                const initialSceneName = "Question";
+                const initialSceneName = "Waiting";
                 return (
                   <Navigator
                     initialSceneName={initialSceneName}

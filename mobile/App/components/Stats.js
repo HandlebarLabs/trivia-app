@@ -1,45 +1,57 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 
-export default ({ correct, total }) => (
-  <View style={styles.container}>
-    <View style={styles.textBlock}>
-      <Text style={styles.text}>Correct Answers</Text>
-      <Text style={styles.countText}>{correct}</Text>
-    </View>
-    <View style={styles.border} />
-    <View style={styles.textBlock}>
-      <Text style={styles.text}>Total Answers</Text>
-      <Text style={styles.countText}>{total}</Text>
-    </View>
-  </View>
-);
+import { H2, P } from "./Text";
+
+export default class Stats extends React.Component {
+  _animatedWidth = new Animated.Value(0);
+
+  handleOnLayout = ({ nativeEvent }) => {
+    const percentage = this.props.correct / this.props.total;
+    const width = Math.floor(nativeEvent.layout.width * percentage);
+
+    Animated.spring(this._animatedWidth, {
+      toValue: width
+    }).start();
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <H2>{this.props.username}'s stats:</H2>
+        <View style={styles.row} onLayout={this.handleOnLayout}>
+          <Animated.View
+            style={[styles.fill, { width: this._animatedWidth }]}
+          />
+        </View>
+        <P>
+          <P bold>{this.props.correct}</P> correct out of{" "}
+          <P bold>{this.props.total}</P> answered
+        </P>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    borderColor: "#ccc",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    marginLeft: -20,
-    marginRight: -20,
-    justifyContent: "center"
-  },
-  border: {
-    backgroundColor: "#ccc",
-    width: 1
-  },
-  textBlock: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 30
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
-  text: {
-    fontSize: 16,
-    marginBottom: 10
+  row: {
+    borderRadius: 30,
+    backgroundColor: "#F5F4F6",
+    alignSelf: "stretch",
+    height: 35,
+    marginBottom: 20
   },
-  countText: {
-    fontSize: 20
+  fill: {
+    borderRadius: 30,
+    backgroundColor: "#5AADC1",
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0
   }
 });

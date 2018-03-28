@@ -3,7 +3,7 @@ import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import { TitleText, StandardText } from "../components/Text";
+import { H1, P } from "../components/Text";
 import { PrimaryButton } from "../components/Button";
 import TextInput from "../components/TextInput";
 
@@ -27,10 +27,8 @@ class Welcome extends React.Component {
     return (
       <Container>
         <Card>
-          <TitleText>Trivia!</TitleText>
-          <StandardText>
-            Free, twice-daily challenges of random knowledge
-          </StandardText>
+          <H1>Trivia!</H1>
+          <P>Free, twice-daily challenges of random knowledge</P>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <TextInput
               placeholder="Choose a username..."

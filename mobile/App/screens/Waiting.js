@@ -3,7 +3,7 @@ import moment from "moment";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import { TitleText, StandardText } from "../components/Text";
+import { H1, H2 } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
@@ -25,14 +25,14 @@ class Waiting extends React.Component {
     return (
       <Container>
         <Card>
-          <TitleText>
-            Next question in{" "}
+          <H2 center> Next question in:</H2>
+          <H1>
             {this.props.nextQuestionTime
               ? moment(new Date(this.props.nextQuestionTime)).toNow(true)
               : "..."}
-          </TitleText>
-          <StandardText center>{this.props.username}</StandardText>
+          </H1>
           <Stats
+            username={this.props.username}
             correct={this.props.correctAnswered}
             total={this.props.totalAnswered}
           />
