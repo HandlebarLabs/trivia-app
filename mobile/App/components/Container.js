@@ -1,18 +1,28 @@
 import React from "react";
-import { StyleSheet, Text, SafeAreaView, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  StatusBar,
+  View,
+  ScrollView
+} from "react-native";
 
+// TODO: Scroll if content area larger than screen
 export default props => (
   <SafeAreaView style={styles.container}>
-    <StatusBar barStyle="light-content" backgroundColor="#468189" />
-    {props.children}
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#468189" />
+      {props.children}
+    </View>
   </SafeAreaView>
 );
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#468189",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#85D4E7",
+    justifyContent: "space-between",
+    padding: 10
   }
 });

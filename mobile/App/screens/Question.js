@@ -1,12 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
 import { QuestionText } from "../components/Text";
-import { PrimaryButton, ButtonPlaceholder } from "../components/Button";
+import { PrimaryButton } from "../components/Button";
 import QuestionRow from "../components/QuestionRow";
-import AnswerRow from "../components/AnswerRow";
 
 import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
@@ -39,35 +38,32 @@ class Question extends React.Component {
     }
   };
 
-  renderResults = ({ answers, totalResponses }, userAnswer) => (
+  renderQuestions = (question, userAnswer = {}) => (
     <View>
-      {answers.map(answer => {
-        const wasUserAnswer = answer.answer === userAnswer.answer;
+      {question.answers.map((answer, index) => {
+        let wasUserAnswer = false;
+        let answered = false;
+        if (Object.keys(userAnswer).length > 0) {
+          answered = true;
+          wasUserAnswer = answer.answer === userAnswer.answer;
+        }
+
         return (
-          <AnswerRow
+          <QuestionRow
             key={answer.answer}
+            index={index}
             answer={answer.answer}
+            answered={answered}
+            onPress={() => this.handleAnswer(question, answer)}
+            wasUserAnswer={wasUserAnswer}
+            isCorrectAnswer={answer.correct}
             answerResponses={
               wasUserAnswer ? answer.answerCount + 1 : answer.answerCount
             }
-            totalResponses={totalResponses + 1}
-            wasUserAnswer={wasUserAnswer}
-            wasCorrect={userAnswer.wasCorrect}
+            totalResponses={question.totalResponses + 1}
           />
         );
       })}
-    </View>
-  );
-
-  renderQuestions = question => (
-    <View>
-      {question.answers.map(answer => (
-        <QuestionRow
-          key={answer.answer}
-          answer={answer.answer}
-          onPress={() => this.handleAnswer(question, answer)}
-        />
-      ))}
     </View>
   );
 
@@ -82,14 +78,12 @@ class Question extends React.Component {
       <Container>
         <Card>
           <QuestionText>{currentQuestion.question}</QuestionText>
-          {userAnswer
-            ? this.renderResults(currentQuestion, userAnswer)
-            : this.renderQuestions(currentQuestion)}
+          {this.renderQuestions(currentQuestion, userAnswer)}
         </Card>
-        {userAnswer ? (
-          <PrimaryButton onPress={this.handleNext}>Next</PrimaryButton>
-        ) : (
-          <ButtonPlaceholder />
+        {userAnswer && (
+          <PrimaryButton onPress={this.handleNext} align="right">
+            Continue
+          </PrimaryButton>
         )}
       </Container>
     );

@@ -4,18 +4,21 @@ import { StyleSheet, TextInput } from "react-native";
 export default props => (
   <TextInput
     style={[styles.input, props.style]}
-    placeholderTextColor="#ABABAB"
+    placeholderTextColor="#9B9B9B"
     {...props}
   />
 );
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#f5f5f5",
-    height: 40,
-    marginBottom: 10,
+    backgroundColor: "#F5F4F6",
     borderColor: "#ccc",
-    borderRadius: 10,
-    paddingHorizontal: 10
+    borderRadius: 20,
+    paddingHorizontal: 22,
+    paddingVertical: 10,
+    fontFamily: "quicksand-regular",
+    fontSize: 20,
+    lineHeight: 25,
+    color: "#9B9B9B"
   }
 });

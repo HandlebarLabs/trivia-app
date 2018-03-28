@@ -1,11 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
 import { TitleText, StandardText } from "../components/Text";
-import { PrimaryButton, SecondaryButton } from "../components/Button";
-import TextInput from "../components/TextInput";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  HorizontalButtons
+} from "../components/Button";
 
 import * as UserData from "../util/UserData";
 
@@ -26,14 +29,18 @@ class EnablePush extends React.Component {
     return (
       <Container>
         <Card>
-          <TitleText>Get Notified</TitleText>
+          <TitleText>Get Notified?</TitleText>
           <StandardText>
             We use push notifications so we can remind you when new trivia
             questions are available!
           </StandardText>
         </Card>
-        <PrimaryButton onPress={this.handleEnable}>Enable</PrimaryButton>
-        <SecondaryButton onPress={this.handleDismiss}>Dismiss</SecondaryButton>
+        <HorizontalButtons>
+          <SecondaryButton onPress={this.handleDismiss}>
+            No thanks
+          </SecondaryButton>
+          <PrimaryButton onPress={this.handleEnable}>Notify me!</PrimaryButton>
+        </HorizontalButtons>
       </Container>
     );
   }

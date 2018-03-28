@@ -7,48 +7,90 @@ import {
   TouchableOpacity
 } from "react-native";
 
-export const ButtonPlaceholder = () => (
-  <View style={[styles.button, styles.buttonTransparent]}>
-    <Text style={[styles.text, styles.textTransparent]}>Placeholder</Text>
-  </View>
-);
+export const PrimaryButton = ({
+  onPress = () => null,
+  children,
+  _isHorizontal,
+  align
+}) => {
+  const style = [styles.button];
 
-export const PrimaryButton = ({ onPress = () => null, children }) => (
-  <TouchableHighlight
-    onPress={onPress}
-    style={styles.button}
-    underlayColor="#409773"
-  >
-    <Text style={styles.text}>{children}</Text>
-  </TouchableHighlight>
-);
+  if (_isHorizontal) {
+    style.push(styles.horizontalChild);
+  }
 
-export const SecondaryButton = ({ onPress = () => null, children }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.button, styles.secondary]}>
-    <Text style={styles.text}>{children}</Text>
-  </TouchableOpacity>
-);
+  if (align === "right") {
+    style.push({ alignSelf: "flex-end", paddingHorizontal: 35 });
+  }
+
+  return (
+    <TouchableHighlight onPress={onPress} style={style} underlayColor="#F4F4F4">
+      <Text style={styles.text}>{children}</Text>
+    </TouchableHighlight>
+  );
+};
+
+export const SecondaryButton = ({
+  onPress = () => null,
+  children,
+  _isHorizontal
+}) => {
+  const style = [styles.button, styles.secondary];
+
+  if (_isHorizontal) {
+    style.push(styles.horizontalChild);
+  }
+
+  return (
+    <TouchableOpacity onPress={onPress} style={style}>
+      <Text style={[styles.text, styles.secondaryText]}>{children}</Text>
+    </TouchableOpacity>
+  );
+};
+
+export const HorizontalButtons = props => {
+  return (
+    <View style={styles.horizontal}>
+      {React.Children.map(props.children, c => {
+        return React.cloneElement(c, {
+          _isHorizontal: true
+        });
+      })}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#4DB389",
-    padding: 20,
-    borderRadius: 30,
-    paddingHorizontal: 60,
-    marginTop: 20,
-    alignSelf: "center"
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    borderRadius: 23,
+    paddingHorizontal: 80,
+    marginHorizontal: 10,
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 10
   },
   secondary: {
     backgroundColor: "transparent",
-    paddingVertical: 10
-  },
-  buttonTransparent: {
-    backgroundColor: "transparent"
+    borderWidth: 2,
+    borderColor: "#fff"
   },
   text: {
+    color: "#5AADC1",
+    fontFamily: "quicksand-bold",
+    fontSize: 20,
+    lineHeight: 25
+  },
+  secondaryText: {
     color: "#fff"
   },
-  textTransparent: {
-    color: "transparent"
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  horizontalChild: {
+    flex: 1,
+    paddingHorizontal: 0
   }
 });

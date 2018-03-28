@@ -1,15 +1,26 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
 import { TitleText, StandardText } from "../components/Text";
-import { PrimaryButton, SecondaryButton } from "../components/Button";
+import { PrimaryButton } from "../components/Button";
 import TextInput from "../components/TextInput";
 
-export default class App extends React.Component {
+import * as UserData from "../util/UserData";
+
+class Welcome extends React.Component {
+  state = {
+    username: ""
+  };
+
   handleNext = () => {
-    this.props.goTo("Account");
+    if (this.state.username.length > 0) {
+      this.props.setUsername(this.state.username);
+      this.props.goTo("EnablePush");
+    } else {
+      alert("Username is required.");
+    }
   };
 
   render() {
@@ -17,10 +28,27 @@ export default class App extends React.Component {
       <Container>
         <Card>
           <TitleText>Trivia!</TitleText>
-          <StandardText>Get a new trivia question twice a day</StandardText>
+          <StandardText>
+            Free, twice-daily challenges of random knowledge
+          </StandardText>
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <TextInput
+              placeholder="Choose a username..."
+              autoCapitalize="none"
+              onChangeText={username => this.setState({ username })}
+              returnKeyType="next"
+              onSubmitEditing={this.handleJoin}
+            />
+          </View>
         </Card>
-        <PrimaryButton onPress={this.handleNext}>Get Started</PrimaryButton>
+        <PrimaryButton onPress={this.handleNext}>Join!</PrimaryButton>
       </Container>
     );
   }
 }
+
+export default props => (
+  <UserData.Consumer>
+    {({ setUsername }) => <Welcome {...props} setUsername={setUsername} />}
+  </UserData.Consumer>
+);
