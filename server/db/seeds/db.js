@@ -1,4 +1,5 @@
 const csv = require("csvtojson");
+const { randomNumber } = require("../../util/math");
 
 exports.seed = (knex, Promise) => {
   const data = [];
@@ -8,23 +9,22 @@ exports.seed = (knex, Promise) => {
       .on("json", jsonObj => {
         const newRow = {
           question: jsonObj["Question"],
-          totalResponses: 0,
           asked: false,
           isCurrent: false,
           answers: [
             {
               answer: jsonObj["Answer 1"],
-              answerCount: 0,
+              answerCount: randomNumber(0, 10),
               correct: jsonObj["Answer 1"] === jsonObj["Correct Answer"]
             },
             {
               answer: jsonObj["Answer 2"],
-              answerCount: 0,
+              answerCount: randomNumber(0, 10),
               correct: jsonObj["Answer 2"] === jsonObj["Correct Answer"]
             },
             {
               answer: jsonObj["Answer 3"],
-              answerCount: 0,
+              answerCount: randomNumber(0, 10),
               correct: jsonObj["Answer 3"] === jsonObj["Correct Answer"]
             }
           ]
@@ -33,7 +33,7 @@ exports.seed = (knex, Promise) => {
         if (jsonObj["Answer 4"] && jsonObj["Answer 4"].length > 0) {
           newRow.answers.push({
             answer: jsonObj["Answer 4"],
-            answerCount: 0,
+            answerCount: randomNumber(0, 10),
             correct: jsonObj["Answer 4"] === jsonObj["Correct Answer"]
           });
         }
@@ -46,6 +46,11 @@ exports.seed = (knex, Promise) => {
         });
 
         if (hasACorrectAnswer) {
+          newRow.totalResponses = newRow.answers.reduce(
+            (total, answer) => total + answer.answerCount,
+            0
+          );
+
           data.push({
             ...newRow,
             answers: JSON.stringify(newRow.answers)
@@ -54,6 +59,8 @@ exports.seed = (knex, Promise) => {
       })
       .on("done", error => {
         data[0].isCurrent = true;
+        data[1].isCurrent = true;
+        data[2].isCurrent = true;
         return knex("questions")
           .del()
           .then(() => {
