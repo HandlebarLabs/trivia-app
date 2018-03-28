@@ -1,7 +1,7 @@
 import { Linking } from "react-native";
 import { Permissions, Notifications } from "expo";
 
-export const registerForPushNotifications = async () => {
+export const pushNotificationsEnabled = async () => {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -18,6 +18,18 @@ export const registerForPushNotifications = async () => {
 
   // Stop here if the user did not grant permissions
   if (finalStatus !== "granted") {
+    return false;
+  }
+
+  return true;
+};
+
+export const registerForPushNotifications = async () => {
+  const enabled = await pushNotificationsEnabled();
+  alert(enabled);
+
+  // Stop here if the user did not grant permissions
+  if (!enabled) {
     return;
   }
 

@@ -2,7 +2,10 @@ import React from "react";
 import createReactContext from "create-react-context";
 import { AsyncStorage } from "react-native";
 
-import { registerForPushNotifications } from "./pushNotifications";
+import {
+  registerForPushNotifications,
+  pushNotificationsEnabled
+} from "./pushNotifications";
 import { ENDPOINT } from "./api";
 
 const defaultState = {
@@ -23,10 +26,11 @@ export class Provider extends React.Component {
   state = defaultState;
 
   componentDidMount() {
-    AsyncStorage.getItem("userData")
-      .then(state => {
+    Promise.all([AsyncStorage.getItem("userData"), pushNotificationsEnabled()])
+      .then(([state, pushEnabled]) => {
         this.setState({
           ...JSON.parse(state),
+          pushEnabled,
           ready: true
         });
       })
