@@ -13,19 +13,18 @@ exports.up = function(knex, Promise) {
   );
 
   chain.push(
-    knex.schema.createTable("users", table => {
+    knex.schema.createTable("pushNotifications", table => {
       table.increments("_id");
-      table.string("username");
-      table.text("pushTokens");
+      table.text("token");
+      table.string("platform");
     })
   );
-
   return Promise.all(chain);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable("questions"),
-    knex.schema.dropTable("users")
+    knex.schema.dropTable("pushNotifications")
   ]);
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import createReactContext from "create-react-context";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Platform } from "react-native";
 
 import {
   registerForPushNotifications,
@@ -12,7 +12,6 @@ const defaultState = {
   ready: false,
   onboardingComplete: false,
   username: null,
-  userId: null,
   totalAnswered: 0,
   correctAnswered: 0,
   pushEnabled: false,
@@ -49,49 +48,27 @@ export class Provider extends React.Component {
   }
 
   logout = () => {
-    const { userId } = this.state;
     this.setState({ ...defaultState, ready: true });
-    return fetch(`${ENDPOINT}/user`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        userId
-      }
-    }).catch(err => console.log("err", err));
   };
 
   completeOnboarding = () => this.setState({ onboardingComplete: true });
 
   setUsername = (username = null) => {
     this.setState({ username });
-    return fetch(`${ENDPOINT}/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username
-      })
-    })
-      .then(res => res.json())
-      .then(({ data }) => {
-        this.setState({ userId: data._id });
-      })
-      .catch(err => console.log("err", err));
   };
 
   enablePushNotifications = () => {
     return registerForPushNotifications().then(token => {
       if (token) {
         this.setState({ pushEnabled: true });
-        return fetch(`${ENDPOINT}/user/add-push-token`, {
+        return fetch(`${ENDPOINT}/push/add-token`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
-            userId: this.state.userId
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            pushToken: token
+            pushToken: token,
+            platform: Platform.OS
           })
         });
       }

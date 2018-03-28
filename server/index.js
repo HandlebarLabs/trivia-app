@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const User = require("./models/User");
 const Question = require("./models/Question");
+const PushNotification = require("./models/PushNotification");
 
 /*
  * Express Bootstrap
@@ -28,24 +28,11 @@ app.get("/", (req, res) => {
   res.send("Hello to the Trivia API!");
 });
 
-app.post("/user", (req, res) => {
-  return User.createUser(req.body.username)
-    .then(user => {
-      formatResponse(res, "success", user);
-    })
-    .catch(error => formatResponse(res, "error", error));
-});
-
-app.delete("/user", (req, res) => {
-  return User.deleteUser(req.headers.userid)
-    .then(() => {
-      formatResponse(res, "success");
-    })
-    .catch(error => formatResponse(res, "error", error));
-});
-
-app.put("/user/add-push-token", (req, res) => {
-  return User.addPushToken({ _id: req.headers.userid }, req.body.pushToken)
+app.put("/push/add-token", (req, res) => {
+  return PushNotification.addPushToken({
+    token: req.body.pushToken,
+    platform: req.body.platform
+  })
     .then(() => formatResponse(res, "success"))
     .catch(error => formatResponse(res, "error", error));
 });

@@ -8,84 +8,17 @@ TODO: How to run the server
 
 ## API Docs
 
-### POST /user
-
-**Request**
+### POST /push/add-token
 
 ```javascript
-fetch("/user", {
+fetch("/push/add-token", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
   },
   body: JSON.stringify({
-    username: "spencer"
-  })
-});
-```
-
-**Successful Response**
-
-```json
-{
-  "message": "success",
-  "data": {
-    "_id": 19,
-    "username": "spencer",
-    "pushTokens": null
-  }
-}
-```
-
-**Failure Response**
-
-```json
-{
-  "message": "error",
-  "data": "An error message..."
-}
-```
-
-### DELETE /user
-
-```javascript
-fetch("/user", {
-  method: "DELETE",
-  headers: {
-    "Content-Type": "application/json",
-    userId: 1
-  }
-});
-```
-
-**Successful Response**
-
-```json
-{
-  "message": "success"
-}
-```
-
-**Failure Response**
-
-```json
-{
-  "message": "error",
-  "data": "An error message..."
-}
-```
-
-### PUT /user/add-push-token
-
-```javascript
-fetch("/user/add-push-token", {
-  method: "PUT",
-  headers: {
-    "Content-Type": "application/json",
-    userId: 1
-  },
-  body: JSON.stringify({
-    pushToken: "asfd"
+    pushToken: "asfd",
+    platform: "ios" // "android"
   })
 });
 ```
