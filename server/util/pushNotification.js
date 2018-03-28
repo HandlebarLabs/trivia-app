@@ -1,8 +1,10 @@
 const User = require("../models/User");
 
 const sendNewQuestionToAllUsers = question => {
-  return User.getAllWithNotifications().forEach(user => {
-    // Send the notifications https://github.com/expo/exponent-server-sdk-node
+  return User.getAllWithNotifications().then(users => {
+    users.forEach(user => {
+      // Send the notifications https://github.com/expo/exponent-server-sdk-node
+    });
   });
 };
 

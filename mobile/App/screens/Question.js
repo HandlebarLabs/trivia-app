@@ -11,12 +11,18 @@ import AnswerRow from "../components/AnswerRow";
 import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
 
+const defaultState = {
+  answered: false,
+  wasCorrect: null,
+  userAnswer: {}
+};
+
 class Question extends React.Component {
-  state = {
-    answered: false,
-    wasCorrect: null,
-    userAnswer: {}
+  static defaultProps = {
+    questionIndex: 0
   };
+
+  state = defaultState;
 
   componentDidMount() {
     if (this.props.questions.length === 0) {
@@ -36,8 +42,16 @@ class Question extends React.Component {
   };
 
   handleNext = () => {
-    this.props.goTo("Waiting", {
-      nextQuestionTime: this.state.nextQuestionTime
+    this.setState(defaultState, () => {
+      if (this.props.questionIndex < this.props.questions.length - 1) {
+        this.props.goTo("Question", {
+          questionIndex: this.props.questionIndex + 1
+        });
+      } else {
+        this.props.goTo("Waiting", {
+          nextQuestionTime: this.state.nextQuestionTime
+        });
+      }
     });
   };
 
@@ -78,7 +92,7 @@ class Question extends React.Component {
       return null;
     }
 
-    const currentQuestion = this.props.questions[0];
+    const currentQuestion = this.props.questions[this.props.questionIndex];
     return (
       <Container>
         <Card>

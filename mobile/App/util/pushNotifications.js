@@ -26,7 +26,6 @@ export const pushNotificationsEnabled = async () => {
 
 export const registerForPushNotifications = async () => {
   const enabled = await pushNotificationsEnabled();
-  alert(enabled);
 
   // Stop here if the user did not grant permissions
   if (!enabled) {

@@ -62,11 +62,12 @@ const setNewCurrentQuestion = () => {
   return db
     .table("questions")
     .where({ asked: false })
-    .first()
-    .then(doc => {
+    .limit(3)
+    .then(docs => {
+      const ids = docs.map(doc => doc._id);
       return db
         .table("questions")
-        .where({ _id: doc._id })
+        .whereIn("_id", ids)
         .update({ isCurrent: true });
     });
 };

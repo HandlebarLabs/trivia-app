@@ -12,6 +12,7 @@ const createNewQuestionJob = () => {
   );
 };
 
+Question.setNewQuestion();
 module.exports = {
   createNewQuestionJob
 };
