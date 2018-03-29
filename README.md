@@ -9,6 +9,8 @@ Download it, hack around with it, and learn React Native!
 
 ![App Demo](/assets/app-demo.gif)
 
+Thanks to [Allison Kunz](https://www.linkedin.com/in/tafka-labs/) for the design of the application.
+
 # React Native App
 
 ## Getting Started
