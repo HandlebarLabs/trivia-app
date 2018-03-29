@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  StatusBar,
-  View,
-  ScrollView
-} from "react-native";
+import { StyleSheet, SafeAreaView, StatusBar, View } from "react-native";
 
 // TODO: Scroll if content area larger than screen
 export default props => (
@@ -23,6 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#85D4E7",
     justifyContent: "space-between",
-    padding: 10
-  }
+    padding: 10,
+  },
 });

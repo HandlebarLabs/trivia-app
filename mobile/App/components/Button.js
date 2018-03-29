@@ -1,17 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableHighlight,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, View, TouchableHighlight, Text, TouchableOpacity } from "react-native";
 
 export const PrimaryButton = ({
-  onPress = () => null,
-  children,
-  _isHorizontal,
-  align
+  onPress = () => null, children, _isHorizontal, align,
 }) => {
   const style = [styles.button];
 
@@ -34,7 +25,7 @@ export const SecondaryButton = ({
   onPress = () => null,
   children,
   _isHorizontal,
-  border = true
+  border = true,
 }) => {
   const style = [styles.button, styles.secondary];
   const textStyles = [styles.text, styles.secondaryText];
@@ -56,17 +47,14 @@ export const SecondaryButton = ({
   );
 };
 
-export const HorizontalButtons = props => {
-  return (
-    <View style={styles.horizontal}>
-      {React.Children.map(props.children, c => {
-        return React.cloneElement(c, {
-          _isHorizontal: true
-        });
-      })}
-    </View>
-  );
-};
+export const HorizontalButtons = props => (
+  <View style={styles.horizontal}>
+    {React.Children.map(props.children, c =>
+      React.cloneElement(c, {
+        _isHorizontal: true,
+      }))}
+  </View>
+);
 
 const styles = StyleSheet.create({
   button: {
@@ -77,34 +65,34 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignSelf: "center",
     alignItems: "center",
-    marginTop: 10
+    marginTop: 10,
   },
   secondary: {
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
   },
   secondaryBorder: {
     borderWidth: 2,
-    borderColor: "#fff"
+    borderColor: "#fff",
   },
   text: {
     color: "#5AADC1",
     fontFamily: "quicksand-bold",
     fontSize: 20,
     lineHeight: 25,
-    textAlign: "center"
+    textAlign: "center",
   },
   secondaryText: {
-    color: "#fff"
+    color: "#fff",
   },
   secondaryTextNoBorder: {
-    fontFamily: "quicksand-regular"
+    fontFamily: "quicksand-regular",
   },
   horizontal: {
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   horizontalChild: {
     flex: 1,
-    paddingHorizontal: 0
-  }
+    paddingHorizontal: 0,
+  },
 });

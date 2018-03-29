@@ -2,11 +2,7 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 export default props => (
-  <TextInput
-    style={[styles.input, props.style]}
-    placeholderTextColor="#9B9B9B"
-    {...props}
-  />
+  <TextInput style={[styles.input, props.style]} placeholderTextColor="#9B9B9B" {...props} />
 );
 
 const styles = StyleSheet.create({
@@ -19,6 +15,6 @@ const styles = StyleSheet.create({
     fontFamily: "quicksand-regular",
     fontSize: 20,
     lineHeight: 25,
-    color: "#9B9B9B"
-  }
+    color: "#9B9B9B",
+  },
 });

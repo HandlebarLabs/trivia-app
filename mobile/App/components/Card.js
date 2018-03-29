@@ -9,6 +9,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     borderRadius: 20,
-    minHeight: 333
-  }
+    minHeight: 333,
+  },
 });

@@ -2,9 +2,7 @@ import { Linking } from "react-native";
 import { Permissions, Notifications } from "expo";
 
 export const pushNotificationsEnabled = async () => {
-  const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-  );
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   let finalStatus = existingStatus;
 
   // only ask if permissions have not already been determined, because
@@ -29,13 +27,11 @@ export const registerForPushNotifications = async () => {
 
   // Stop here if the user did not grant permissions
   if (!enabled) {
-    return;
+    return Promise.resolve();
   }
 
   // Get the token that uniquely identifies this device
-  return await Notifications.getExpoPushTokenAsync();
+  return Notifications.getExpoPushTokenAsync();
 };
 
-export const openSettings = () => {
-  return Linking.openURL("app-settings:");
-};
+export const openSettings = () => Linking.openURL("app-settings:");

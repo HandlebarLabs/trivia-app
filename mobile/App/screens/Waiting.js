@@ -40,9 +40,7 @@ class Waiting extends React.Component {
         </Card>
         <View>
           {!this.props.pushEnabled && (
-            <PrimaryButton onPress={this.handleSettings}>
-              Enable Notifications
-            </PrimaryButton>
+            <PrimaryButton onPress={this.handleSettings}>Enable Notifications</PrimaryButton>
           )}
           <SecondaryButton border={false} onPress={this.handleLogout}>
             Logout
@@ -55,24 +53,24 @@ class Waiting extends React.Component {
 
 const WithUserData = props => (
   <UserData.Consumer>
-    {({ logout, totalAnswered, correctAnswered, username, pushEnabled }) => (
-      <Waiting
-        {...props}
-        logout={logout}
-        totalAnswered={totalAnswered}
-        correctAnswered={correctAnswered}
-        username={username}
-        pushEnabled={pushEnabled}
-      />
+    {({
+ logout, totalAnswered, correctAnswered, username, pushEnabled,
+}) => (
+  <Waiting
+    {...props}
+    logout={logout}
+    totalAnswered={totalAnswered}
+    correctAnswered={correctAnswered}
+    username={username}
+    pushEnabled={pushEnabled}
+  />
     )}
   </UserData.Consumer>
 );
 
 const WithQuestionData = props => (
   <QuestionData.Consumer>
-    {({ nextQuestionTime }) => (
-      <WithUserData {...props} nextQuestionTime={nextQuestionTime} />
-    )}
+    {({ nextQuestionTime }) => <WithUserData {...props} nextQuestionTime={nextQuestionTime} />}
   </QuestionData.Consumer>
 );
 

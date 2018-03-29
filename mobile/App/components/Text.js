@@ -3,21 +3,17 @@ import { StyleSheet, Text } from "react-native";
 
 export const H1 = props => <Text style={styles.title}>{props.children}</Text>;
 
-export const H2 = props => {
+export const H2 = (props) => {
   const s = [styles.question];
   if (props.center) s.push({ textAlign: "center" });
   return <Text style={s}>{props.children}</Text>;
 };
 
 export const AnswerText = props => (
-  <Text style={[styles.answer, props.bold && styles.answerBold]}>
-    {props.children}
-  </Text>
+  <Text style={[styles.answer, props.bold && styles.answerBold]}>{props.children}</Text>
 );
 
-export const AnswerRowText = props => (
-  <Text style={styles.answerRow}>{props.children}</Text>
-);
+export const AnswerRowText = props => <Text style={styles.answerRow}>{props.children}</Text>;
 
 export const P = ({ children, center, bold }) => {
   const s = [styles.standard];
@@ -32,23 +28,23 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 20,
     fontFamily: "quicksand-light",
-    color: "#4A4A4A"
+    color: "#4A4A4A",
   },
   answer: {
     marginBottom: 6,
     fontSize: 20,
     lineHeight: 25,
     color: "#4A4A4A",
-    fontFamily: "quicksand-regular"
+    fontFamily: "quicksand-regular",
   },
   answerBold: {
-    fontFamily: "quicksand-bold"
+    fontFamily: "quicksand-bold",
   },
   answerRow: {
     fontSize: 20,
     lineHeight: 25,
     color: "#4A4A4A",
-    fontFamily: "quicksand-light"
+    fontFamily: "quicksand-light",
   },
   title: {
     fontSize: 40,
@@ -56,13 +52,13 @@ const styles = StyleSheet.create({
     marginBottom: 11,
     color: "#4A4A4A",
     fontFamily: "bangers-regular",
-    textAlign: "center"
+    textAlign: "center",
   },
   standard: {
     marginBottom: 10,
     fontSize: 20,
     lineHeight: 25,
     fontFamily: "quicksand-regular",
-    color: "#4A4A4A"
-  }
+    color: "#4A4A4A",
+  },
 });

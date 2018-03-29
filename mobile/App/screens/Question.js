@@ -12,7 +12,7 @@ import * as QuestionData from "../util/QuestionData";
 
 class Question extends React.Component {
   static defaultProps = {
-    questionIndex: 0
+    questionIndex: 0,
   };
 
   componentDidMount() {
@@ -29,11 +29,11 @@ class Question extends React.Component {
   handleNext = () => {
     if (this.props.questionIndex < this.props.questions.length - 1) {
       this.props.goTo("Question", {
-        questionIndex: this.props.questionIndex + 1
+        questionIndex: this.props.questionIndex + 1,
       });
     } else {
       this.props.goTo("Waiting", {
-        nextQuestionTime: this.props.nextQuestionTime
+        nextQuestionTime: this.props.nextQuestionTime,
       });
     }
   };
@@ -57,9 +57,7 @@ class Question extends React.Component {
             onPress={() => this.handleAnswer(question, answer)}
             wasUserAnswer={wasUserAnswer}
             isCorrectAnswer={answer.correct}
-            answerResponses={
-              wasUserAnswer ? answer.answerCount + 1 : answer.answerCount
-            }
+            answerResponses={wasUserAnswer ? answer.answerCount + 1 : answer.answerCount}
             totalResponses={question.totalResponses + 1}
           />
         );

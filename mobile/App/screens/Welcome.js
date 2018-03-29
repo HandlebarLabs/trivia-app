@@ -11,7 +11,7 @@ import * as UserData from "../util/UserData";
 
 class Welcome extends React.Component {
   state = {
-    username: ""
+    username: "",
   };
 
   handleNext = () => {

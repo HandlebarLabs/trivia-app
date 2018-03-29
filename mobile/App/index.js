@@ -15,7 +15,7 @@ import { loadFonts } from "./util/fonts";
 
 class App extends React.Component {
   state = {
-    fontsReady: false
+    fontsReady: false,
   };
 
   componentDidMount() {
@@ -27,14 +27,12 @@ class App extends React.Component {
         <QuestionData.Consumer>
           {question => (
             <UserData.Consumer>
-              {user => {
+              {(user) => {
                 if (!user.ready || !question.ready || !this.state.fontsReady) {
                   return <ActivityIndicator size="large" color="#fff" />;
                 }
 
-                const initialSceneName = user.onboardingComplete
-                  ? "Question"
-                  : "Welcome";
+                const initialSceneName = user.onboardingComplete ? "Question" : "Welcome";
                 return (
                   <Navigator
                     initialSceneName={initialSceneName}
@@ -42,7 +40,7 @@ class App extends React.Component {
                       Welcome: { component: Welcome },
                       EnablePush: { component: EnablePush },
                       Question: { component: Question },
-                      Waiting: { component: Waiting }
+                      Waiting: { component: Waiting },
                     }}
                   />
                 );

@@ -9,44 +9,40 @@ export default class App extends React.Component {
 
     this.state = {
       currentScene: props.initialSceneName || Object.keys(props.scenes)[0],
-      nextSceneProps: null
+      nextSceneProps: null,
     };
   }
-
-  animatedValue = new Animated.Value(0);
 
   componentDidMount() {
     this.display();
   }
 
-  display = () => {
-    return new Promise(resolve => {
+  animatedValue = new Animated.Value(0);
+
+  display = () =>
+    new Promise((resolve) => {
       Animated.spring(this.animatedValue, {
         toValue: 1,
         duration: 500,
-        useNativeDriver: true
+        useNativeDriver: true,
       }).start(() => resolve());
     });
-  };
 
-  dismiss = () => {
-    return new Promise(resolve => {
+  dismiss = () =>
+    new Promise((resolve) => {
       Animated.spring(this.animatedValue, {
         toValue: 2,
         duration: 500,
-        useNativeDriver: true
+        useNativeDriver: true,
       }).start(() => {
         this.animatedValue.setValue(0);
         resolve();
       });
     });
-  };
 
   goTo = (sceneName, props = {}) => {
     this.dismiss().then(() => {
-      this.setState({ currentScene: sceneName, nextSceneProps: props }, () =>
-        this.display()
-      );
+      this.setState({ currentScene: sceneName, nextSceneProps: props }, () => this.display());
     });
   };
 
@@ -57,24 +53,20 @@ export default class App extends React.Component {
 
     const translateX = this.animatedValue.interpolate({
       inputRange: [0, 1, 2],
-      outputRange: [width, 0, -width]
+      outputRange: [width, 0, -width],
     });
 
     const s = [
       {
         alignSelf: "stretch",
         flex: 1,
-        transform: [{ translateX }]
-      }
+        transform: [{ translateX }],
+      },
     ];
 
     return (
       <Animated.View style={s}>
-        <CurrentScene
-          goTo={this.goTo}
-          {...sceneProps}
-          {...this.state.nextSceneProps}
-        />
+        <CurrentScene goTo={this.goTo} {...sceneProps} {...this.state.nextSceneProps} />
       </Animated.View>
     );
   }

@@ -11,22 +11,22 @@ export default class Stats extends React.Component {
     const width = Math.floor(nativeEvent.layout.width * percentage);
 
     Animated.spring(this._animatedWidth, {
-      toValue: width
+      toValue: width,
     }).start();
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <H2>{this.props.username}'s stats:</H2>
+        <H2>
+          {this.props.username}
+          {"'s"} stats:
+        </H2>
         <View style={styles.row} onLayout={this.handleOnLayout}>
-          <Animated.View
-            style={[styles.fill, { width: this._animatedWidth }]}
-          />
+          <Animated.View style={[styles.fill, { width: this._animatedWidth }]} />
         </View>
         <P>
-          <P bold>{this.props.correct}</P> correct out of{" "}
-          <P bold>{this.props.total}</P> answered
+          <P bold>{this.props.correct}</P> correct out of <P bold>{this.props.total}</P> answered
         </P>
       </View>
     );
@@ -37,14 +37,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
   },
   row: {
     borderRadius: 30,
     backgroundColor: "#F5F4F6",
     alignSelf: "stretch",
     height: 35,
-    marginBottom: 20
+    marginBottom: 20,
   },
   fill: {
     borderRadius: 30,
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     bottom: 0,
-    left: 0
-  }
+    left: 0,
+  },
 });

@@ -6,7 +6,7 @@ import { ENDPOINT } from "./api";
 const defaultState = {
   ready: false,
   questions: [],
-  nextQuestionTime: null
+  nextQuestionTime: null,
 };
 
 const QuestionContext = createReactContext(defaultState);
@@ -20,37 +20,35 @@ export class Provider extends React.Component {
     this.getQuestions();
   }
 
-  getQuestions = () => {
-    return fetch(`${ENDPOINT}/questions/next`)
+  getQuestions = () =>
+    fetch(`${ENDPOINT}/questions/next`)
       .then(res => res.json())
       .then(({ data }) => {
         this.setState({
           ready: true,
           questions: data.questions,
-          nextQuestionTime: data.nextQuestionTime
+          nextQuestionTime: data.nextQuestionTime,
         });
       })
-      .catch(err => this.setState({ ready: true }));
-  };
+      .catch(() => this.setState({ ready: true }));
 
-  answerQuestion = (question, answer) => {
-    return fetch(`${ENDPOINT}/questions/answer/${question._id}`, {
+  answerQuestion = (question, answer) =>
+    fetch(`${ENDPOINT}/questions/answer/${question._id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        answer
-      })
+        answer,
+      }),
     });
-  };
 
   render() {
     return (
       <QuestionContext.Provider
         value={{
           ...this.state,
-          answerQuestion: this.answerQuestion
+          answerQuestion: this.answerQuestion,
         }}
       >
         {this.props.children}
