@@ -33,6 +33,7 @@ class Welcome extends React.Component {
             <TextInput
               placeholder="Choose a username..."
               autoCapitalize="none"
+              autoCorrect={false}
               onChangeText={username => this.setState({ username })}
               returnKeyType="next"
               onSubmitEditing={this.handleJoin}
