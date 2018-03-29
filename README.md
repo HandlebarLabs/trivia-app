@@ -1,10 +1,39 @@
 # React Native Trivia App
 
-Work in progress.
+This is a simple trivia game that serves as a demonstration app for React Native. I intentionally tried to use minimal third-party packages to demonstrate, in as simple form as possible, how to create your own (and to learn myself).
+
+Download it, hack around with it, and learn React Native!
+
+* [React Native App Docs](#react-native-app)
+* [Server Docs](#server)
+
+![App Demo](/assets/app-demo.gif)
+
+# React Native App
+
+## Getting Started
+
+This app is built on top of Expo so the first requirement is to install [Expo](https://expo.io/learn).
+
+After cloning the repo and moving into the `mobile` directory run the following command:
+
+* `yarn install` - Installs dependencies
+
+You can then open the app from within the Expo XDE (or the command line) and run it from there.
 
 # Server
 
-TODO: How to run the server
+## Getting Started
+
+After cloning the repo and moving into the `server` directory run the following commands:
+
+* `yarn install` - Installs dependencies
+* `yarn run db:migrate-latest` - Creates the database (based on sqlite)
+* `yarn run db:seed` - Seeds the database with some data
+
+## Usage
+
+* `yarn start` - Starts the server, making it accessible on `http://localhost:3000`
 
 ## API Docs
 

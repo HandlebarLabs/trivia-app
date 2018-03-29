@@ -36,7 +36,7 @@ class Welcome extends React.Component {
               autoCorrect={false}
               onChangeText={username => this.setState({ username })}
               returnKeyType="next"
-              onSubmitEditing={this.handleJoin}
+              onSubmitEditing={this.handleNext}
             />
           </View>
         </Card>
