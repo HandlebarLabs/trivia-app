@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { View } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
@@ -37,12 +38,16 @@ class Waiting extends React.Component {
             total={this.props.totalAnswered}
           />
         </Card>
-        {!this.props.pushEnabled && (
-          <PrimaryButton onPress={this.handleSettings}>
-            Enable Notifications
-          </PrimaryButton>
-        )}
-        <SecondaryButton onPress={this.handleLogout}>Logout</SecondaryButton>
+        <View>
+          {!this.props.pushEnabled && (
+            <PrimaryButton onPress={this.handleSettings}>
+              Enable Notifications
+            </PrimaryButton>
+          )}
+          <SecondaryButton border={false} onPress={this.handleLogout}>
+            Logout
+          </SecondaryButton>
+        </View>
       </Container>
     );
   }

@@ -33,17 +33,25 @@ export const PrimaryButton = ({
 export const SecondaryButton = ({
   onPress = () => null,
   children,
-  _isHorizontal
+  _isHorizontal,
+  border = true
 }) => {
   const style = [styles.button, styles.secondary];
+  const textStyles = [styles.text, styles.secondaryText];
 
   if (_isHorizontal) {
     style.push(styles.horizontalChild);
   }
 
+  if (border) {
+    style.push(styles.secondaryBorder);
+  } else {
+    textStyles.push(styles.secondaryTextNoBorder);
+  }
+
   return (
     <TouchableOpacity onPress={onPress} style={style}>
-      <Text style={[styles.text, styles.secondaryText]}>{children}</Text>
+      <Text style={textStyles}>{children}</Text>
     </TouchableOpacity>
   );
 };
@@ -64,7 +72,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#fff",
     paddingVertical: 10,
-    borderRadius: 23,
+    borderRadius: 60,
     paddingHorizontal: 80,
     marginHorizontal: 10,
     alignSelf: "center",
@@ -72,7 +80,9 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   secondary: {
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
+  },
+  secondaryBorder: {
     borderWidth: 2,
     borderColor: "#fff"
   },
@@ -80,10 +90,14 @@ const styles = StyleSheet.create({
     color: "#5AADC1",
     fontFamily: "quicksand-bold",
     fontSize: 20,
-    lineHeight: 25
+    lineHeight: 25,
+    textAlign: "center"
   },
   secondaryText: {
     color: "#fff"
+  },
+  secondaryTextNoBorder: {
+    fontFamily: "quicksand-regular"
   },
   horizontal: {
     flexDirection: "row",

@@ -32,10 +32,9 @@ class App extends React.Component {
                   return <ActivityIndicator size="large" color="#fff" />;
                 }
 
-                // const initialSceneName = user.onboardingComplete
-                // ? "Question"
-                // : "Welcome";
-                const initialSceneName = "Waiting";
+                const initialSceneName = user.onboardingComplete
+                  ? "Question"
+                  : "Welcome";
                 return (
                   <Navigator
                     initialSceneName={initialSceneName}
