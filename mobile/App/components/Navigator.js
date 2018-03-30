@@ -49,7 +49,6 @@ export default class App extends React.Component {
   render() {
     const scene = this.props.scenes[this.state.currentScene];
     const CurrentScene = scene ? scene.component : View;
-    const sceneProps = scene ? scene.props : {};
 
     const translateX = this.animatedValue.interpolate({
       inputRange: [0, 1, 2],
@@ -66,7 +65,7 @@ export default class App extends React.Component {
 
     return (
       <Animated.View style={s}>
-        <CurrentScene goTo={this.goTo} {...sceneProps} {...this.state.nextSceneProps} />
+        <CurrentScene goTo={this.goTo} {...this.state.nextSceneProps} />
       </Animated.View>
     );
   }
