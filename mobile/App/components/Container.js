@@ -23,7 +23,9 @@ export default class Container extends React.Component {
           scrollEnabled={scrollEnabled}
           onContentSizeChange={this.onContentSizeChange}
         >
-          <View style={styles.content}>{this.props.children}</View>
+          <View style={[styles.content, this.props.padding && styles.padding]}>
+            {this.props.children}
+          </View>
         </ScrollView>
       </SafeAreaView>
     );
@@ -40,7 +42,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flexGrow: 1,
-    padding: 10,
     justifyContent: "space-between",
+  },
+  padding: {
+    padding: 10,
   },
 });
