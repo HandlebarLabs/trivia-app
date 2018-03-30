@@ -23,7 +23,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <Container>
+      <Container padding>
         <QuestionData.Consumer>
           {question => (
             <UserData.Consumer>
