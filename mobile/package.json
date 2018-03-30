@@ -6,11 +6,10 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "create-react-context": "^0.2.1",
-    "expo": "^25.0.0",
+    "expo": "^26.0.0",
     "moment": "^2.21.0",
-    "react": "16.2.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz"
+    "react": "16.3.0-alpha.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-26.0.0.tar.gz"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

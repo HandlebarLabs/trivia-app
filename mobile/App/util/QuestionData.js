@@ -1,5 +1,4 @@
 import React from "react";
-import createReactContext from "create-react-context";
 
 import { ENDPOINT } from "./api";
 
@@ -9,7 +8,7 @@ const defaultState = {
   nextQuestionTime: null,
 };
 
-const QuestionContext = createReactContext(defaultState);
+const QuestionContext = React.createContext(defaultState);
 
 export const Consumer = QuestionContext.Consumer;
 

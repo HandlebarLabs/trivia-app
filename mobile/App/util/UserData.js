@@ -1,5 +1,4 @@
 import React from "react";
-import createReactContext from "create-react-context";
 import { AsyncStorage, Platform } from "react-native";
 
 import { registerForPushNotifications, pushNotificationsEnabled } from "./pushNotifications";
@@ -15,7 +14,7 @@ const defaultState = {
   answers: {},
 };
 
-const UserContext = createReactContext(defaultState);
+const UserContext = React.createContext(defaultState);
 
 export const Consumer = UserContext.Consumer;
 
