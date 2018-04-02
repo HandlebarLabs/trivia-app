@@ -75,7 +75,8 @@ const setNewCurrentQuestion = () => {
 const setNewQuestion = () => {
   return setCurrentQuestionAsAnswered()
     .then(() => resetQuestionsIfAllAsked())
-    .then(() => setNewCurrentQuestion());
+    .then(() => setNewCurrentQuestion())
+    .then(() => getNextQuestions());
 };
 
 const getNextQuestions = () => {
