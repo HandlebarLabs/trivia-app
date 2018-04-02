@@ -13,7 +13,8 @@ const sendNewQuestionsToAll = questions => {
         return {
           to: doc.token,
           sound: "default",
-          body: questions[0].question
+          body: questions[0].question,
+          badge: questions.length
         };
       });
     })

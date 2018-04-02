@@ -12,6 +12,7 @@ import Container from "./components/Container";
 import * as UserData from "./util/UserData";
 import * as QuestionData from "./util/QuestionData";
 import { loadFonts } from "./util/fonts";
+import { setBadgeNumber } from "./util/pushNotifications";
 
 class App extends React.Component {
   state = {
@@ -20,7 +21,9 @@ class App extends React.Component {
 
   componentDidMount() {
     loadFonts().then(() => this.setState({ fontsReady: true }));
+    setBadgeNumber(0);
   }
+
   render() {
     return (
       <Container padding>

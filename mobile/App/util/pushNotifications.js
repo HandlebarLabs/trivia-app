@@ -35,3 +35,5 @@ export const registerForPushNotifications = async () => {
 };
 
 export const openSettings = () => Linking.openURL("app-settings:");
+
+export const setBadgeNumber = (number = 0) => Notifications.setBadgeNumberAsync(number);
