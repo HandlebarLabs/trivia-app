@@ -19,16 +19,20 @@ export class Provider extends React.Component {
     this.getQuestions();
   }
 
+  setQuestions = ({ data }, priority = false) => {
+    if (priority || this.state.questions.length === 0) {
+      this.setState({
+        ready: true,
+        questions: data.questions,
+        nextQuestionTime: data.nextQuestionTime,
+      });
+    }
+  };
+
   getQuestions = () =>
     fetch(`${ENDPOINT}/questions/next`)
       .then(res => res.json())
-      .then(({ data }) => {
-        this.setState({
-          ready: true,
-          questions: data.questions,
-          nextQuestionTime: data.nextQuestionTime,
-        });
-      })
+      .then(this.setQuestions)
       .catch(() => this.setState({ ready: true }));
 
   answerQuestion = (question, answer) =>
@@ -48,6 +52,7 @@ export class Provider extends React.Component {
         value={{
           ...this.state,
           answerQuestion: this.answerQuestion,
+          setQuestions: this.setQuestions,
         }}
       >
         {this.props.children}

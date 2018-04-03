@@ -5,14 +5,18 @@ const PushNotification = require("../models/PushNotification");
 const createNewQuestionJob = () => {
   // Run at the top of every hour
   const scheduleRule = "0 * * * *";
-  return schedule.scheduleJob(scheduleRule, () =>
+  const job = schedule.scheduleJob(scheduleRule, () =>
     Question.setNewQuestion().then(questions =>
-      PushNotification.sendNewQuestionsToAll(questions)
+      PushNotification.sendNewQuestionsToAll({
+        questions,
+        nextQuestionTime: job.nextInvocation()
+      })
     )
   );
+
+  return job;
 };
 
-Question.setNewQuestion();
 module.exports = {
   createNewQuestionJob
 };

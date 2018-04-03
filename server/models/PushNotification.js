@@ -3,7 +3,7 @@ const db = require("../db");
 
 const expo = new Expo();
 
-const sendNewQuestionsToAll = questions => {
+const sendNewQuestionsToAll = ({ questions, nextQuestionTime }) => {
   return db
     .table("pushNotifications")
     .then(docs => {
@@ -14,7 +14,11 @@ const sendNewQuestionsToAll = questions => {
           to: doc.token,
           sound: "default",
           body: questions[0].question,
-          badge: questions.length
+          badge: questions.length,
+          data: {
+            questions,
+            nextQuestionTime
+          }
         };
       });
     })
@@ -29,6 +33,8 @@ const sendNewQuestionsToAll = questions => {
 };
 
 const addPushToken = ({ token, platform, timezone }) => {
+  // TODO: Check if it's valid
+  // TODO: Check that it isn't a duplicate
   return db.table("pushNotifications").insert({
     token,
     platform
