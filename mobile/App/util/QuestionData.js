@@ -6,6 +6,7 @@ const defaultState = {
   ready: false,
   questions: [],
   nextQuestionTime: null,
+  askedQuestions: [],
 };
 
 const QuestionContext = React.createContext(defaultState);
@@ -35,6 +36,16 @@ export class Provider extends React.Component {
       .then(this.setQuestions)
       .catch(() => this.setState({ ready: true }));
 
+  getAskedQuestions = () =>
+    fetch(`${ENDPOINT}/questions/asked`)
+      .then(res => res.json())
+      .then(({ data }) => {
+        this.setState({
+          askedQuestions: data.questions,
+        });
+      })
+      .catch(() => this.setState({ ready: true }));
+
   answerQuestion = (question, answer) =>
     fetch(`${ENDPOINT}/questions/answer/${question._id}`, {
       method: "PUT",
@@ -53,6 +64,7 @@ export class Provider extends React.Component {
           ...this.state,
           answerQuestion: this.answerQuestion,
           setQuestions: this.setQuestions,
+          getAskedQuestions: this.getAskedQuestions,
         }}
       >
         {this.props.children}

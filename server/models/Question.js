@@ -93,8 +93,24 @@ const getNextQuestions = () => {
     );
 };
 
+const getAskedQuestions = () => {
+  return db
+    .table("questions")
+    .where({ asked: true })
+    .limit(20)
+    .then(questions =>
+      questions.map(q => {
+        return {
+          ...q,
+          answers: JSON.parse(q.answers)
+        };
+      })
+    );
+};
+
 module.exports = {
   answerQuestion,
   getNextQuestions,
-  setNewQuestion
+  setNewQuestion,
+  getAskedQuestions
 };

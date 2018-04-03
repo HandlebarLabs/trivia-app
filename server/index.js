@@ -42,7 +42,6 @@ app.get("/questions/next", (req, res) => {
   return Question.getNextQuestions()
     .then(questions => {
       const data = {
-        message: "success",
         nextQuestionTime: nextQuestionJob.nextInvocation(),
         questions
       };
@@ -55,6 +54,18 @@ app.get("/questions/next", (req, res) => {
 app.put("/questions/answer/:questionId", (req, res) => {
   return Question.answerQuestion(req.params.questionId, req.body.answer)
     .then(() => formatResponse(res, "success"))
+    .catch(error => formatResponse(res, "error", error));
+});
+
+app.get("/questions/asked", (req, res) => {
+  return Question.getAskedQuestions()
+    .then(questions => {
+      const data = {
+        questions
+      };
+
+      formatResponse(res, "success", data);
+    })
     .catch(error => formatResponse(res, "error", error));
 });
 

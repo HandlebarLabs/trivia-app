@@ -88,7 +88,6 @@ fetch("/questions/next", {
 {
   "message": "success",
   "data": {
-    "message": "success",
     "nextQuestionTime": "2018-03-22T23:00:00.000Z",
     "questions": [
       {
@@ -154,6 +153,69 @@ fetch(`/questions/answer/${QUESTION_ID}`, {
 ```json
 {
   "message": "success"
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
+
+### GET /questions/asked
+
+```javascript
+fetch("/questions/asked", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success",
+  "data": {
+    "questions": [
+      {
+        "_id": 18,
+        "question":
+          "The Daniel Boon museum at the home where he died can best be described how?",
+        "totalResponses": 0,
+        "answers": [
+          {
+            "answer": "a log cabin in Kentucky",
+            "answerCount": 0,
+            "correct": false
+          },
+          {
+            "answer": "a two-story clapboard house in Tennessee",
+            "answerCount": 0,
+            "correct": false
+          },
+          {
+            "answer": "a four-story Georgian-style home in Missouri",
+            "answerCount": 0,
+            "correct": true
+          },
+          {
+            "answer": "a three story brick house in Arkansas",
+            "answerCount": 0,
+            "correct": false
+          }
+        ],
+        "asked": 0,
+        "isCurrent": 1
+      },
+      ... // limit of 20
+    ]
+  }
 }
 ```
 
