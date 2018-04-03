@@ -10,7 +10,7 @@ import * as UserData from "../util/UserData";
 
 class NotificationHistory extends React.Component {
   componentDidMount() {
-    this.props.user.getNotificationHistory();
+    this.props.user.getNotificationHistory().catch(err => console.log("err", err));
   }
 
   render() {

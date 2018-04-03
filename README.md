@@ -2,6 +2,8 @@
 
 This is a simple trivia game that serves as a demonstration app for React Native. I intentionally tried to use minimal third-party packages to demonstrate, in as simple form as possible, how to create your own (and to learn myself).
 
+**This app was developed for the [Master Push Notifications in React Native](https://learn.handlebarlabs.com/p/master-push-notifications-in-react-native) course.**
+
 Download it, hack around with it, and learn React Native!
 
 * [React Native App Docs](#react-native-app)
