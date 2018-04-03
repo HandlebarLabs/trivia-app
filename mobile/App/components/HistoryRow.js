@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import moment from "moment";
 
-import { AnswerText } from "./Text";
+import { P } from "./Text";
 
 export default (props) => {
   const rowStyle = [styles.row];
@@ -11,7 +12,8 @@ export default (props) => {
 
   return (
     <View style={rowStyle}>
-      <AnswerText>{props.question}</AnswerText>
+      {props.data.questions.map(question => <P key={question._id}>- {question.question}</P>)}
+      <P subtle>{moment(props.createdAt).format("h:mm A M/D/YYYY")}</P>
     </View>
   );
 };

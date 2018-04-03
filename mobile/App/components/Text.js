@@ -15,10 +15,13 @@ export const AnswerText = props => (
 
 export const AnswerRowText = props => <Text style={styles.answerRow}>{props.children}</Text>;
 
-export const P = ({ children, center, bold }) => {
+export const P = ({
+  children, center, bold, subtle,
+}) => {
   const s = [styles.standard];
   if (center) s.push({ textAlign: "center" });
   if (bold) s.push({ fontFamily: "quicksand-bold" });
+  if (subtle) s.push({ fontSize: 15 });
 
   return <Text style={s}>{children}</Text>;
 };
@@ -57,7 +60,6 @@ const styles = StyleSheet.create({
   standard: {
     marginBottom: 10,
     fontSize: 20,
-    lineHeight: 25,
     fontFamily: "quicksand-regular",
     color: "#4A4A4A",
   },

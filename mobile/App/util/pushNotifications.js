@@ -35,6 +35,8 @@ export const registerForPushNotifications = async () => {
   return Notifications.getExpoPushTokenAsync();
 };
 
+export const getPushToken = () => Notifications.getExpoPushTokenAsync();
+
 export const openSettings = () => Linking.openURL("app-settings:");
 
 export const setBadgeNumber = (number = 0) => Notifications.setBadgeNumberAsync(number);

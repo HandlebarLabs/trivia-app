@@ -71,6 +71,135 @@ fetch("/push/add-token", {
 }
 ```
 
+### GET /push/history
+
+```javascript
+fetch("/push/history/:token", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success",
+  "data": [
+    {
+      "_id": 3,
+      "createdAt": "2018-04-03 17:01:38",
+      "data": {
+        "questions": [
+          {
+            "_id": 10,
+            "question":
+              "In 1985, five percent of U.S. households had telephone answering machines. By 1990 what percentage of homes had answering machines?",
+            "totalResponses": 17,
+            "answers": [
+              {
+                "answer": "10 percent",
+                "answerCount": 10,
+                "correct": false
+              },
+              {
+                "answer": "15 percent",
+                "answerCount": 3,
+                "correct": false
+              },
+              {
+                "answer": "31 percent",
+                "answerCount": 0,
+                "correct": true
+              },
+              {
+                "answer": "51 percent",
+                "answerCount": 4,
+                "correct": false
+              }
+            ],
+            "asked": 0,
+            "isCurrent": 1
+          },
+          {
+            "_id": 11,
+            "question":
+              "The first black American pictured on a U.S. postage stamp was who?",
+            "totalResponses": 9,
+            "answers": [
+              {
+                "answer": "Fredrick Douglas",
+                "answerCount": 0,
+                "correct": false
+              },
+              {
+                "answer": "Booked T. Washington",
+                "answerCount": 1,
+                "correct": false
+              },
+              {
+                "answer": "Louis Armstrong",
+                "answerCount": 5,
+                "correct": false
+              },
+              {
+                "answer": "Joe Louis",
+                "answerCount": 3,
+                "correct": true
+              }
+            ],
+            "asked": 0,
+            "isCurrent": 1
+          },
+          {
+            "_id": 12,
+            "question": "What did the “D” in D-Day stand for?",
+            "totalResponses": 18,
+            "answers": [
+              {
+                "answer": "Doom",
+                "answerCount": 9,
+                "correct": false
+              },
+              {
+                "answer": "Day",
+                "answerCount": 2,
+                "correct": true
+              },
+              {
+                "answer": "Dwight (Eisenhower)",
+                "answerCount": 6,
+                "correct": false
+              },
+              {
+                "answer": "Dunkirk",
+                "answerCount": 1,
+                "correct": false
+              }
+            ],
+            "asked": 0,
+            "isCurrent": 1
+          }
+        ],
+        "nextQuestionTime": "2018-04-03T18:00:00.000Z"
+      }
+    },
+    ...
+  ]
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
+
 ### GET /questions/next
 
 ```javascript

@@ -6,12 +6,11 @@ import Card from "../components/Card";
 import { H2, P } from "../components/Text";
 import HistoryRow from "../components/HistoryRow";
 
-import * as QuestionData from "../util/QuestionData";
+import * as UserData from "../util/UserData";
 
 class NotificationHistory extends React.Component {
   componentDidMount() {
-    // TODO: This should be the history of notifications, not asked questions
-    this.props.question.getAskedQuestions();
+    this.props.user.getNotificationHistory();
   }
 
   render() {
@@ -26,9 +25,9 @@ class NotificationHistory extends React.Component {
               <P>❌</P>
             </TouchableOpacity>
           </View>
-          {this.props.question.askedQuestions.length === 0 && <P>No history at this time...</P>}
-          {this.props.question.askedQuestions.map((question, index) => (
-            <HistoryRow key={question._id} index={index} {...question} />
+          {this.props.user.notificationHistory.length === 0 && <P>No history at this time...</P>}
+          {this.props.user.notificationHistory.map((notification, index) => (
+            <HistoryRow key={notification._id} index={index} {...notification} />
           ))}
         </Card>
       </Container>
@@ -37,7 +36,5 @@ class NotificationHistory extends React.Component {
 }
 
 export default props => (
-  <QuestionData.Consumer>
-    {question => <NotificationHistory question={question} {...props} />}
-  </QuestionData.Consumer>
+  <UserData.Consumer>{user => <NotificationHistory user={user} {...props} />}</UserData.Consumer>
 );

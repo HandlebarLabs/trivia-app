@@ -1,10 +1,10 @@
 import React from "react";
 import moment from "moment";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
 import Container from "../components/Container";
 import Card from "../components/Card";
-import { H1, H2 } from "../components/Text";
+import { H1, H2, P } from "../components/Text";
 import { PrimaryButton, SecondaryButton } from "../components/Button";
 import Stats from "../components/Stats";
 
@@ -40,8 +40,12 @@ class Waiting extends React.Component {
             username={this.props.username}
             correct={this.props.correctAnswered}
             total={this.props.totalAnswered}
-            onPress={this.handleStatsPress}
           />
+          <TouchableOpacity onPress={this.handleStatsPress}>
+            <P bold center>
+              Notification History
+            </P>
+          </TouchableOpacity>
         </Card>
         <View>
           {!this.props.pushEnabled && (

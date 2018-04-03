@@ -1,7 +1,11 @@
 import React from "react";
 import { AsyncStorage, Platform } from "react-native";
 
-import { registerForPushNotifications, pushNotificationsEnabled } from "./pushNotifications";
+import {
+  registerForPushNotifications,
+  pushNotificationsEnabled,
+  getPushToken,
+} from "./pushNotifications";
 import { ENDPOINT } from "./api";
 
 const defaultState = {
@@ -12,6 +16,7 @@ const defaultState = {
   correctAnswered: 0,
   pushEnabled: false,
   answers: {},
+  notificationHistory: [],
 };
 
 const UserContext = React.createContext(defaultState);
@@ -44,6 +49,28 @@ export class Provider extends React.Component {
     this.setState({ username });
   };
 
+  getNotificationHistory = () =>
+    getPushToken()
+      .then(token => fetch(`${ENDPOINT}/push/history/${token}`))
+      .then(res => res.json())
+      .then(({ data }) => {
+        data.sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt));
+        this.setState({
+          notificationHistory: data,
+        });
+      });
+
+  answerQuestion = (question, answer) => {
+    this.setState(state => ({
+      answers: {
+        ...state.answers,
+        [question._id]: { wasCorrect: answer.correct, answer: answer.answer },
+      },
+      totalAnswered: state.totalAnswered + 1,
+      correctAnswered: answer.correct ? state.correctAnswered + 1 : state.correctAnswered,
+    }));
+  };
+
   completeOnboarding = () => this.setState({ onboardingComplete: true });
 
   logout = () => {
@@ -70,17 +97,6 @@ export class Provider extends React.Component {
       return Promise.resolve();
     });
 
-  answerQuestion = (question, answer) => {
-    this.setState(state => ({
-      answers: {
-        ...state.answers,
-        [question._id]: { wasCorrect: answer.correct, answer: answer.answer },
-      },
-      totalAnswered: state.totalAnswered + 1,
-      correctAnswered: answer.correct ? state.correctAnswered + 1 : state.correctAnswered,
-    }));
-  };
-
   render() {
     return (
       <UserContext.Provider
@@ -91,6 +107,7 @@ export class Provider extends React.Component {
           setUsername: this.setUsername,
           enablePushNotifications: this.enablePushNotifications,
           answerQuestion: this.answerQuestion,
+          getNotificationHistory: this.getNotificationHistory,
         }}
       >
         {this.props.children}

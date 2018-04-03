@@ -1,5 +1,7 @@
 const db = require("../db");
 
+const dbKey = "questions";
+
 const incrementAnswerCount = (q, userAnswer) => {
   const question = {
     ...q,
@@ -14,7 +16,7 @@ const incrementAnswerCount = (q, userAnswer) => {
 
   return (
     db
-      .table("questions")
+      .table(dbKey)
       .where({ _id: question._id })
       .update({
         totalResponses: (question.totalResponses += 1),
@@ -27,7 +29,7 @@ const incrementAnswerCount = (q, userAnswer) => {
 
 const answerQuestion = (questionId, answer) => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ _id: questionId })
     .first()
     .then(question => {
@@ -37,19 +39,19 @@ const answerQuestion = (questionId, answer) => {
 
 const setCurrentQuestionAsAnswered = () => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ isCurrent: true })
     .update({ isCurrent: false, asked: true });
 };
 
 const resetQuestionsIfAllAsked = () => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ asked: false })
     .then(data => {
       if (data.length === 0) {
         return db
-          .table("questions")
+          .table(dbKey)
           .where({ asked: true })
           .update({ asked: false });
       } else {
@@ -60,13 +62,13 @@ const resetQuestionsIfAllAsked = () => {
 
 const setNewCurrentQuestion = () => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ asked: false })
     .limit(3)
     .then(docs => {
       const ids = docs.map(doc => doc._id);
       return db
-        .table("questions")
+        .table(dbKey)
         .whereIn("_id", ids)
         .update({ isCurrent: true });
     });
@@ -81,7 +83,7 @@ const setNewQuestion = () => {
 
 const getNextQuestions = () => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ isCurrent: true })
     .then(questions =>
       questions.map(q => {
@@ -95,7 +97,7 @@ const getNextQuestions = () => {
 
 const getAskedQuestions = () => {
   return db
-    .table("questions")
+    .table(dbKey)
     .where({ asked: true })
     .limit(20)
     .then(questions =>
@@ -112,5 +114,6 @@ module.exports = {
   answerQuestion,
   getNextQuestions,
   setNewQuestion,
-  getAskedQuestions
+  getAskedQuestions,
+  dbKey
 };

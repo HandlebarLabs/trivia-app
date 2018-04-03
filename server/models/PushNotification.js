@@ -1,16 +1,24 @@
 const Expo = require("expo-server-sdk");
 const db = require("../db");
 
-const expo = new Expo();
+const dbKey = "pushNotifications";
 
-const sendNewQuestionsToAll = ({ questions, nextQuestionTime }) => {
+const sendNewNotificationToAll = notification => {
+  const { questions, nextQuestionTime } = notification.data;
+  const expo = new Expo();
+
   return db
-    .table("pushNotifications")
+    .table(dbKey)
     .then(docs => {
-      return docs.map(doc => {
-        // TODO: Check if valid token
+      const messages = [];
+      const notificationReceivers = [];
+      docs.forEach(doc => {
+        notificationReceivers.push({
+          pushNotificationId: doc._id,
+          notificationId: notification._id
+        });
 
-        return {
+        messages.push({
           to: doc.token,
           sound: "default",
           body: questions[0].question,
@@ -19,29 +27,44 @@ const sendNewQuestionsToAll = ({ questions, nextQuestionTime }) => {
             questions,
             nextQuestionTime
           }
-        };
+        });
       });
+
+      return {
+        messages,
+        notificationReceivers
+      };
     })
-    .then(messages => {
+    .then(({ messages, notificationReceivers }) => {
       const messageChunks = expo.chunkPushNotifications(messages);
 
-      return messageChunks.map(chunk => {
+      const expoRequests = messageChunks.map(chunk => {
         return expo.sendPushNotificationsAsync(chunk);
       });
+
+      return { expoRequests, notificationReceivers };
     })
-    .then(chunks => Promise.all(chunks));
+    .then(({ expoRequests, notificationReceivers }) => {
+      const NotificationReceivers = require("./NotificationReceiver");
+
+      return Promise.all([
+        NotificationReceivers.createMany(notificationReceivers),
+        ...expoRequests
+      ]);
+    });
 };
 
 const addPushToken = ({ token, platform, timezone }) => {
   // TODO: Check if it's valid
   // TODO: Check that it isn't a duplicate
-  return db.table("pushNotifications").insert({
+  return db.table(dbKey).insert({
     token,
     platform
   });
 };
 
 module.exports = {
-  sendNewQuestionsToAll,
+  dbKey,
+  sendNewNotificationToAll,
   addPushToken
 };
