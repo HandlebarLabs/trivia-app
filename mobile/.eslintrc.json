@@ -16,7 +16,8 @@
     "no-underscore-dangle": 0,
     "no-alert": 0,
     "no-console": 0,
-    "prefer-destructuring": 0
+    "prefer-destructuring": 0,
+    "react/no-multi-comp": 0
   },
   "globals": {
     "fetch": true,
