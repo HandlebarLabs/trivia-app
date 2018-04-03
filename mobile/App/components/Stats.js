@@ -1,9 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Animated } from "react-native";
+import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 
 import { H2, P } from "./Text";
 
 export default class Stats extends React.Component {
+  static defaultProps = {
+    onPress: () => null,
+  };
   _animatedWidth = new Animated.Value(0);
 
   handleOnLayout = ({ nativeEvent }) => {
@@ -25,9 +28,11 @@ export default class Stats extends React.Component {
         <View style={styles.row} onLayout={this.handleOnLayout}>
           <Animated.View style={[styles.fill, { width: this._animatedWidth }]} />
         </View>
-        <P>
-          <P bold>{this.props.correct}</P> correct out of <P bold>{this.props.total}</P> answered
-        </P>
+        <TouchableOpacity onPress={this.props.onPress}>
+          <P>
+            <P bold>{this.props.correct}</P> correct out of <P bold>{this.props.total}</P> answered
+          </P>
+        </TouchableOpacity>
       </View>
     );
   }

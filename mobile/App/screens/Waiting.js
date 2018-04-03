@@ -22,6 +22,10 @@ class Waiting extends React.Component {
     openSettings();
   };
 
+  handleStatsPress = () => {
+    this.props.goTo("NotificationHistory", {}, "vertical");
+  };
+
   render() {
     return (
       <Container>
@@ -36,6 +40,7 @@ class Waiting extends React.Component {
             username={this.props.username}
             correct={this.props.correctAnswered}
             total={this.props.totalAnswered}
+            onPress={this.handleStatsPress}
           />
         </Card>
         <View>

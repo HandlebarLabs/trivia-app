@@ -5,6 +5,7 @@ import EnablePush from "./screens/EnablePush";
 import Question from "./screens/Question";
 import Waiting from "./screens/Waiting";
 import Welcome from "./screens/Welcome";
+import NotificationHistory from "./screens/NotificationHistory";
 
 import Navigator from "./components/Navigator";
 import Container from "./components/Container";
@@ -34,7 +35,8 @@ class App extends React.Component {
       );
     }
 
-    const initialSceneName = this.props.user.onboardingComplete ? "Question" : "Welcome";
+    // const initialSceneName = this.props.user.onboardingComplete ? "Question" : "Welcome";
+    const initialSceneName = "NotificationHistory";
     return (
       <Container padding>
         <Navigator
@@ -44,6 +46,7 @@ class App extends React.Component {
             EnablePush: { component: EnablePush },
             Question: { component: Question },
             Waiting: { component: Waiting },
+            NotificationHistory: { component: NotificationHistory },
           }}
         />
       </Container>
