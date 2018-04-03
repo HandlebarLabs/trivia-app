@@ -18,7 +18,8 @@
     "no-console": 0,
     "prefer-destructuring": 0,
     "react/no-multi-comp": 0,
-    "jsx-a11y/accessible-emoji": 0
+    "jsx-a11y/accessible-emoji": 0,
+    "no-return-assign": 0
   },
   "globals": {
     "fetch": true,

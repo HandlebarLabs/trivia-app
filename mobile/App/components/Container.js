@@ -9,6 +9,7 @@ export default class Container extends React.Component {
   };
 
   onContentSizeChange = (contentWidth, contentHeight) => {
+    this.scrollView.scrollTo({ y: 0, animated: false });
     this.setState({ screenHeight: contentHeight });
   };
 
@@ -18,6 +19,7 @@ export default class Container extends React.Component {
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor="#468189" />
         <ScrollView
+          ref={ref => (this.scrollView = ref)}
           style={{ flex: 1 }}
           contentContainerStyle={styles.scrollview}
           scrollEnabled={scrollEnabled}
