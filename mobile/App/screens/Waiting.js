@@ -10,9 +10,13 @@ import Stats from "../components/Stats";
 
 import * as UserData from "../util/UserData";
 import * as QuestionData from "../util/QuestionData";
-import { openSettings } from "../util/pushNotifications";
+import { openSettings, scheduleStatsNotification } from "../util/pushNotifications";
 
 class Waiting extends React.Component {
+  componentDidMount() {
+    scheduleStatsNotification();
+  }
+
   handleLogout = () => {
     this.props.logout();
     this.props.goTo("Welcome");

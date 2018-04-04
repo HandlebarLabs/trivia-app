@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Linking, Alert } from "react-native";
 import { Permissions, Notifications } from "expo";
+import moment from "moment";
 
 export const pushNotificationsEnabled = async () => {
   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
@@ -75,3 +76,22 @@ export class PushNotificationManager extends React.Component {
     return <View style={{ flex: 1 }}>{this.props.children}</View>;
   }
 }
+
+export const scheduleStatsNotification = () =>
+  Notifications.scheduleLocalNotificationAsync(
+    {
+      title: "Your stats are in! hello?",
+      body: "See how you're doing",
+      data: {
+        target: "stats",
+      },
+    },
+    {
+      time: moment()
+        .day(7)
+        .hour(12)
+        .minute(30)
+        .toDate(), // next sunday at 12:30,
+      repeat: "week",
+    },
+  ).catch(() => console.log("notifications disabled"));

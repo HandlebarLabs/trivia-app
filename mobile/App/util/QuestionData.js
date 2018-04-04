@@ -20,15 +20,21 @@ export class Provider extends React.Component {
     this.getQuestions();
   }
 
-  setQuestions = ({ data }, priority = false) => {
-    if (priority || this.state.questions.length === 0) {
-      this.setState({
-        ready: true,
-        questions: data.questions,
-        nextQuestionTime: data.nextQuestionTime,
-      });
-    }
-  };
+  setQuestions = ({ data }, priority = false) =>
+    new Promise((resolve) => {
+      if (priority || this.state.questions.length === 0) {
+        this.setState(
+          {
+            ready: true,
+            questions: data.questions,
+            nextQuestionTime: data.nextQuestionTime,
+          },
+          () => resolve(),
+        );
+      } else {
+        resolve();
+      }
+    });
 
   getQuestions = () =>
     fetch(`${ENDPOINT}/questions/next`)
