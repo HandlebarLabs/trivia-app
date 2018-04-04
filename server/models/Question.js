@@ -22,7 +22,7 @@ const incrementAnswerCount = (q, userAnswer) => {
         totalResponses: (question.totalResponses += 1),
         answers: JSON.stringify(question.answers)
       })
-      // TODO: Why is this necessary? Doc isn't updating if this isn't here.
+      // Why is this necessary? Doc isn't updating if this isn't here.
       .then(() => null)
   );
 };
