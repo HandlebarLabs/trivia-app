@@ -3,7 +3,11 @@ const db = require("../db");
 const dbKey = "notificationReceivers";
 
 const createMany = (docs = []) => {
-  return db.table(dbKey).insert(docs);
+  if (docs.length > 0) {
+    return db.table(dbKey).insert(docs);
+  }
+
+  return Promise.resolve();
 };
 
 const getHistory = token => {

@@ -33,7 +33,7 @@ app.put("/push/add-token", (req, res) => {
   return PushNotification.addPushToken({
     token: req.body.pushToken,
     platform: req.body.platform,
-    timezone: req.body.timezone
+    timezoneOffset: req.body.timezoneOffset
   })
     .then(() => formatResponse(res, "success"))
     .catch(error => formatResponse(res, "error", error));

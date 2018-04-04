@@ -1,7 +1,33 @@
 const Expo = require("expo-server-sdk");
+const moment = require("moment");
 const db = require("../db");
 
 const dbKey = "pushNotifications";
+
+const getTimeRange = () => {
+  const currentUTC = moment().utc();
+  const allOffsets = [];
+  for (let i = -12; i <= 14; i++) {
+    allOffsets.push(i);
+  }
+
+  const validOffsets = allOffsets.filter(o => {
+    const timezoneTime = moment()
+      .utc()
+      .hours(currentUTC.hours() + o);
+    const timezoneHours = timezoneTime.hours();
+
+    if (timezoneHours >= 8 && timezoneHours <= 22) {
+      return true;
+    }
+    return false;
+  });
+
+  return [
+    validOffsets[0] * -60,
+    validOffsets[validOffsets.length - 1] * -60
+  ].sort();
+};
 
 const sendNewNotificationToAll = notification => {
   const { questions, nextQuestionTime } = notification.data;
@@ -9,6 +35,7 @@ const sendNewNotificationToAll = notification => {
 
   return db
     .table(dbKey)
+    .whereBetween("timezoneOffset", getTimeRange())
     .then(docs => {
       const messages = [];
       const notificationReceivers = [];
@@ -54,12 +81,13 @@ const sendNewNotificationToAll = notification => {
     });
 };
 
-const addPushToken = ({ token, platform, timezone }) => {
+const addPushToken = ({ token, platform, timezoneOffset }) => {
   // TODO: Check if it's valid
   // TODO: Check that it isn't a duplicate
   return db.table(dbKey).insert({
     token,
-    platform
+    platform,
+    timezoneOffset
   });
 };
 

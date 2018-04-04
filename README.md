@@ -52,6 +52,7 @@ fetch("/push/add-token", {
   body: JSON.stringify({
     pushToken: "asfd",
     platform: "ios" // "android"
+    timezoneOffset: 240 // minutes offset new Date().getTimezoneOffset()
   })
 });
 ```

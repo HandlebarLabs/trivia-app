@@ -89,6 +89,7 @@ export class Provider extends React.Component {
           body: JSON.stringify({
             pushToken: token,
             platform: Platform.OS,
+            timezoneOffset: new Date().getTimezoneOffset(),
           }),
         });
       }
