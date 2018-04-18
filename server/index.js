@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const Question = require("./models/Question");
 const PushNotification = require("./models/PushNotification");
 const NotificationReceiver = require("./models/NotificationReceiver");
+const User = require("./models/User");
 
 /*
  * Express Bootstrap
@@ -74,6 +75,22 @@ app.get("/questions/asked", (req, res) => {
       };
 
       formatResponse(res, "success", data);
+    })
+    .catch(error => formatResponse(res, "error", error));
+});
+
+app.post("/user/sign-up", (req, res) => {
+  return User.createUser({ email: req.body.email, password: req.body.password })
+    .then(user => {
+      formatResponse(res, "success", user);
+    })
+    .catch(error => formatResponse(res, "error", error));
+});
+
+app.post("/user/login", (req, res) => {
+  return User.logUserIn({ email: req.body.email, password: req.body.password })
+    .then(user => {
+      formatResponse(res, "success", user);
     })
     .catch(error => formatResponse(res, "error", error));
 });

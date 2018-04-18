@@ -2,6 +2,19 @@ exports.up = function(knex, Promise) {
   const chain = [];
 
   chain.push(
+    knex.schema.createTable("users", table => {
+      table.increments("_id");
+      table.string("password").notNullable();
+      table
+        .string("email")
+        .unique()
+        .notNullable();
+      table.timestamp("lastLogin").defaultTo(knex.fn.now());
+      table.timestamp("createdAt").defaultTo(knex.fn.now());
+    })
+  );
+
+  chain.push(
     knex.schema.createTable("questions", table => {
       table.increments("_id");
       table.text("question");

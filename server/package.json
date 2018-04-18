@@ -12,6 +12,7 @@
   "author": "Spencer Carli <spencer@handlebarlabs.com>",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "csvtojson": "^1.1.9",
     "expo-server-sdk": "^2.3.3",

@@ -359,3 +359,119 @@ fetch("/questions/asked", {
   "data": "An error message..."
 }
 ```
+
+### POST /user/sign-up
+
+```javascript
+fetch("/user/sign-up", {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+```
+
+### POST /user/sign-up
+
+```javascript
+fetch("/user/sign-up", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email: "spencer@handlebarlabs.com",
+    password: "password"
+  })
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success",
+  "data": {
+    "_id": 1,
+    "email": "spencer@handlebarlabs.com",
+    "jwt": "EXAMPLE"
+  }
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
+
+### POST /user/login
+
+```javascript
+fetch("/user/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email: "spencer@handlebarlabs.com",
+    password: "password"
+  })
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success",
+  "data": {
+    "_id": 1,
+    "email": "spencer@handlebarlabs.com",
+    "jwt": "EXAMPLE"
+  }
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
+
+### DELETE /user/delete/:\_id
+
+```javascript
+fetch("/user/delete/:_id", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+```
+
+**Successful Response**
+
+```json
+{
+  "message": "success",
+  "data": {
+    "email": "spencer@handlebarlabs.com"
+  }
+}
+```
+
+**Failure Response**
+
+```json
+{
+  "message": "error",
+  "data": "An error message..."
+}
+```
